@@ -1,0 +1,12 @@
+module ReadDecoder_4_16(RegId, Wordline);
+
+	// INPUTS AND OUTPUTS
+	input [3:0] RegId;
+	output [15:0] Wordline;
+
+	//////////////////////////////////
+	// Wordline = RegId << 16'h0001 //
+	//////////////////////////////////
+	Shifter read_shift(.Shift_out(Wordline), .Shift_in(RegId), .Shift_val(16'h0001), .Mode(1'b0));
+
+endmodule
