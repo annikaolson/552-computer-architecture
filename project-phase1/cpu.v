@@ -70,14 +70,6 @@ output [15:0] pc;   // PC value over the course of the program execution
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
-// reduction unit (RED): performs reduction on 4 byte-size      //
-// operands (i.e. 2 bytes each from 2 registers)                //
-// e.g. rs = aaaaaaaa_bbbbbbbb; rt = cccccccc_dddddddd          //
-// (signext) ((aaaaaaaa + cccccccc) + (bbbbbbbb + ddddddddd))   //
-// will be in rd after the RED operation.                       //
-//////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////
 // data memory: provide a 16-bit address and 16-bit data input  //
 // (write data) and a write enable signal; if the write signal  //
 // is asserted, the memory will write the data input bits to    //
