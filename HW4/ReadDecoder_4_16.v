@@ -9,7 +9,7 @@ module ReadDecoder_4_16(RegId, Wordline);
 	// this effectively sets a bit	  //
 	// of Wordline based on RegId     //
 	// e.g. if RegId = 4, Wordline[4] //
-	// is asserted.			  //
+	// is asserted.			 		  //
 	////////////////////////////////////
 	Shifter read_shift(.Shift_out(Wordline), .Shift_in(16'h0001), .Shift_val(RegId), .Mode(1'b0));
 

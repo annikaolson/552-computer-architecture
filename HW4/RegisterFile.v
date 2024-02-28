@@ -8,7 +8,7 @@ module RegisterFile(clk, rst, SrcReg1, SrcReg2, DstReg, WriteReg, DstData, SrcDa
 	inout [15:0] SrcData1, SrcData2;
 
 	// Intermediate variables
-	wire [15:0] ReadWordline1, ReadWordline1, WriteWordline;
+	wire [15:0] ReadWordline1, ReadWordline2, WriteWordline;
 
 	// Read and write decoders
 	ReadDecoder_4_16 readDecoder1(.RegId(SrcReg1), .Wordline(ReadWordline1));
@@ -32,6 +32,10 @@ module RegisterFile(clk, rst, SrcReg1, SrcReg2, DstReg, WriteReg, DstData, SrcDa
 	Register Register13(.clk(clk), .rst(rst), .D(DstData[13]), .WriteReg(WriteReg), .ReadEnable1(ReadWordline1[13]), .ReadEnable2(ReadWordline2[13]), .Bitline1(SrcData1), .Bitline2(SrcData2));
 	Register Register14(.clk(clk), .rst(rst), .D(DstData[14]), .WriteReg(WriteReg), .ReadEnable1(ReadWordline1[14]), .ReadEnable2(ReadWordline2[14]), .Bitline1(SrcData1), .Bitline2(SrcData2));
 	Register Register15(.clk(clk), .rst(rst), .D(DstData[15]), .WriteReg(WriteReg), .ReadEnable1(ReadWordline1[15]), .ReadEnable2(ReadWordline2[15]), .Bitline1(SrcData1), .Bitline2(SrcData2));
+
+	// RF bypassing by connecting the written-to data to the source data
+	assign SrcData1 = WriteReg ? DstData : SrcData1;
+	assign SrcData2 = WriteReg ? DstData : SrcData2;
 
 
 endmodule
