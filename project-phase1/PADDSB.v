@@ -1,0 +1,9 @@
+module PADDSB(rs, rt, rd)
+input [15:0] rs, rt;
+output [15:0] rd;
+
+//////////////////////////////////////////
+// Instantiate saturating adder 4 times //
+//////////////////////////////////////////
+
+endmodule

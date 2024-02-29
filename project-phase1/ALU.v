@@ -1,7 +1,7 @@
 module ALU(rd, rs, rt, offset, imm, Z, N, V);
 	input  [15:0] rs, rt;
 	input  [3:0] Opcode;
-	input  [15:0] imm;
+	input  [3:0] imm;
 	output reg [15:0] rd;
 	output Z, N, V;
 
@@ -20,18 +20,20 @@ module ALU(rd, rs, rt, offset, imm, Z, N, V);
 	// Add: Opcode[0] = 0 //
 	// Sub: Opcode[0] = 1 //
 	////////////////////////
-	addsub_4bit ADDSUB(.Sum(ADDSUB_out), .Ovfl(Error), .A(rs), .B(rt), .sub(Opcode[0]));
+	// ADDSUB(.Sum(ADDSUB_out), .Ovfl(Error), .A(rs), .B(rt), .sub(Opcode[0]));
+	// Have CLA do add and sub w/ saturation?
 
 	/////////////////////////////////////////////////////
 	// RED: performs reduction on 4 byte-size operands //
 	/////////////////////////////////////////////////////
 	RED red(.rs(rs), .rt(rt), .rd(RED_out));
 
-	////////////////////////
-	// SLL: Opcode[0] = 0 //
-	// SRA: Opcode[0] = 1 //
-	////////////////////////
-	Shifter shift(.Shift_out, .Shift_in(), .Shift_val(imm), .Mode(Opcode[0]));
+	///////////////////////////
+	// SLL: Opcode[1:0] = 00 //
+	// SRA: Opcode[1:0] = 01 //
+	// ROR: Opcode[1:0] = 10 //
+	///////////////////////////
+	Shifter shift(.Shift_out(SHIFT_out), .Shift_in(rs), .Shift_val(imm), .Mode(Opcode[1:0]));
 
 	/////////////////////////////////////////////////////////////////////////////
 	// ALU : ALU_Out and flag calculations  								   //
@@ -50,11 +52,14 @@ module ALU(rd, rs, rt, offset, imm, Z, N, V);
 
 			4'b0011 : 	ALU_Out = RED_out; // RED
 
-			4'b0100 : ; // SLL; Z
+			4'b0100 : 	begin ALU_Out = SHIFT_out; // SLL; Z
+						Z = (ALU_Out == 0); end
 
-			4'b0101 : ; // SRA; Z
+			4'b0101 : 	begin ALU_Out = SHIFT_out; // SRA; Z
+						Z = (ALU_Out == 0); end
 
-			4'b0110 : ; // ROR; Z
+			4'b0110 : 	begin ALU_Out = SHIFT_out; // ROR; Z
+						Z = (ALU_Out == 0); end
 
 			4'b0111 : ; // PADDSB
 
