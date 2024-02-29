@@ -1,10 +1,10 @@
 //4-bit carry lookahead adder
-module CLA_4bit(A, B, cin, S, cout);
+module CLA_4bit(A, B, Cin, S, Cout);
 
     input [3:0] A, B;
-    input cin;
+    input Cin;
     output [3:0] S;
-    output cout;
+    output Cout;
 
     wire [3:0] P, G;    // propagation and generation logic
     wire [4:0] C;       // carry logic
@@ -14,17 +14,15 @@ module CLA_4bit(A, B, cin, S, cout);
     assign G = A & B;
 
     // second level
-    assign C[0] = cin;
-    assign C[1] = G[0] | (P[0] & cin);
-    assign C[2] = G[1] | (P[1] & G[0]) | (P[1] & P[0] & cin);
-    assign C[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]) | (P[2] & P[1] & P[0] & cin);
+    assign C[0] = Cin;
+    assign C[1] = G[0] | (P[0] & Cin);
+    assign C[2] = G[1] | (P[1] & G[0]) | (P[1] & P[0] & Cin);
+    assign C[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]) | (P[2] & P[1] & P[0] & Cin);
     assign C[4] = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | 
-            (P[3] & P[2] & P[1] & G[0]) | (P[3] & P[2] & P[1] & P[0] & cin);
+            (P[3] & P[2] & P[1] & G[0]) | (P[3] & P[2] & P[1] & P[0] & Cin);
 
     // third level
     assign S = P ^ C[3:0];
-    assign cout = C[4];
-
-    // IMPLEMENT SATURATION... SHOULD THIS BE MORE THAN 4 BITS?
+    assign Cout = C[4];
 
 endmodule
