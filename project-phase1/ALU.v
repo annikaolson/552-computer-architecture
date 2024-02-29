@@ -1,7 +1,8 @@
-module ALU(rd, rs, rt, offset, imm, Z, N, V);
+module ALU(rd, rs, rt, imm, ALU_Out, Z, N, V);
 	input  [15:0] rs, rt;
 	input  [3:0] Opcode;
-	input  [3:0] imm;
+	input  [3:0] imm;					// NOTE: imm might not need to be an input, we may be able to get it in here
+	output reg [15:0] ALU_out;
 	output reg [15:0] rd;
 	output Z, N, V;
 
@@ -41,16 +42,16 @@ module ALU(rd, rs, rt, offset, imm, Z, N, V);
 	/////////////////////////////////////////////////////////////////////////////
 	always@(*) begin
 		case (Opcode)
-			4'b0000	: 	begin ALU_Out = ADDSUB_out; // ADD: N, Z, V
-						N = ALU_Out[15]; Z = (ALU_Out == 0); V = Error; end
+			4'b0000	: 	begin assign ALU_Out = ADDSUB_out; // ADD: N, Z, V
+						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); V = Error; end	// set flags
 
-			4'b0001 : 	begin ALU_Out = ADDSUB_sum; // SUB: N, Z, V
-						N = ALU_Out[15]; Z = (ALU_Out == 0); V = Error; end
+			4'b0001 : 	begin assign ALU_Out = ADDSUB_sum; // SUB: N, Z, V
+						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); V = Error; end	// set flags
 
-			4'b0010 : 	begin ALU_Out = (ALU_In1 ^ ALU_In2); // XOR; Z
-						Z = (ALU_Out == 0); end
+			4'b0010 : 	begin assign ALU_Out = (ALU_In1 ^ ALU_In2); // XOR; Z
+						assign Z = (ALU_Out == 0); end	// set flags
 
-			4'b0011 : 	ALU_Out = RED_out; // RED
+			4'b0011 : 	assign ALU_Out = RED_out; // RED
 
 			4'b0100 : 	begin ALU_Out = SHIFT_out; // SLL; Z
 						Z = (ALU_Out == 0); end

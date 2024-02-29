@@ -57,10 +57,10 @@ module Shifter(Shift_out, Shift_in, Shift_val, Mode);
 	// Choose SRA or SLL based on mode
 	always@(*) begin
 		case (Mode)
-			2'b00: Shift_out = sra_out;
-			2'b01: Shift_out = sll_out;
-			2'b10: Shift_out = ror_out;
-			2'b11: Shift_out = 16'h00; // don't want to trigger error here
+			2'b00: assign Shift_out = sra_out;
+			2'b01: assign Shift_out = sll_out;
+			2'b10: assign Shift_out = ror_out;
+			2'b11: assign Shift_out = 16'h00; // don't want to trigger error here
 			default: $error("Error: opcode invalid!");
 		endcase
 	end

@@ -5,6 +5,30 @@ module cpu(clk, rst_n, hlt, pc);
     output [15:0] pc;   // PC value over the course of the program execution
 
     //////////////////////////////////////////////////////////////////
+    // intermediate variables used throughout CPU                   //
+    //////////////////////////////////////////////////////////////////
+    wire [15:0] sign_ext_imm; // sign-extended immediate value
+    wire [15:0] imm_shl_1;  // value of immediate shifted left by one
+    wire [15:0] ALU_A, ALU_B; // inputs to the ALU read from registers
+    wire [15:0] read_data_1, read_data_2;   // the data read from the selected registers
+    wire [3:0] opcode;  // opcode of the instruction
+    wire [15:0] instruction;
+    wire [15:0] ALU_Out;    // output of ALU
+    wire Z, N, V;   // flags: zero, sign, and overflow
+
+    //////////////////////////////////////////////////////////////////
+    // control signals: used as select signal for mux outputs       //
+    //////////////////////////////////////////////////////////////////
+    wire RegDst;    // determines the write register
+    wire Branch;    // branch address is used when asserted
+    wire ALUSrc;    // select the second ALU input: read data 2 or immediate
+    wire RegWrite;  // whether a register is being written to or not
+    wire [3:0] ALUOp;   // ALU operation that should be performed
+    wire MemWrite, MemRead; // see if memory should be read from or written to
+    wire MemtoReg;  // 1 indicates a load word, in which memory access is written to a register
+
+
+    //////////////////////////////////////////////////////////////////
     // reset logic: when reset is high, instructions are executed.  //
     // if reset goes low for one clock cycle, the pc is set back    //
     // to 0 to start execution at the beginning.                    //
@@ -16,14 +40,14 @@ module cpu(clk, rst_n, hlt, pc);
     //      else pc <= ...
     //end
 
-    // instantiate instruction and data memories
-
     //////////////////////////////////////////////////////////////////
     // inst. memory: using addr, find the 16-bit inst. to decode.   //
     //                                                              //
     // decode the instruction: get the opcode, instruction type,    //
     // source, and destination registers to use for operation.      //
     //////////////////////////////////////////////////////////////////
+                                                                        // NOTE: GET INSTRUCTION FROM MEM
+    assign opcode = instruction[3:0];
 
     //////////////////////////////////////////////////////////////////
     // control instructions: B, BR, PCS, and HLT. the condition is  //
@@ -68,6 +92,11 @@ module cpu(clk, rst_n, hlt, pc);
     // data 2 or sign-extended immediate. can set zero flag (z),    //
     // overflow (V), or sign flag (N).                              //
     //////////////////////////////////////////////////////////////////
+    assign ALU_B = ALUSrc ? sign_ext_imm : read_data_2;                 // NOTE: NEED TO ACTUALLY ASSIGN ALL THESE
+    assign ALU_A = read_data_1;                                         // NOTE: DON'T NEED THIS ALU_A VAR, JUST MADE IT BC EASIER TO READ
+    assign ALUOp = opcode;                                              // NOTE: DON'T NEED THIS EITHER TECHINCALLY
+
+    ALU alu(.A(ALU_A), .B(ALU_B), .rd(), .imm(), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //
