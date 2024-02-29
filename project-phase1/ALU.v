@@ -16,7 +16,7 @@ module ALU(ALU_Out, Error, ALU_In1, ALU_In2, Opcode);
 			2'h1: ALU_Out = ADDSUB_sum;
 			2'h2: ALU_Out = ~(ALU_In1 & ALU_In2);
 			2'h3: ALU_Out = (ALU_In1 ^ ALU_In2);
-			default : $display("Error: opcode invalid!");
+			default : $error("Error: opcode invalid!");
 		endcase
 	end
 

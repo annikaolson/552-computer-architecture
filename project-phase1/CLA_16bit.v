@@ -6,7 +6,7 @@ module CLA_16bit(A, B, Cin, S, Cout);
     output Cout;
 
     wire [4:0] C;
-
+    wire overflow_pos, overflow_neg;
 
     // NOTE: not sure if this is okay, because isn't this essentially a ripple carry
     // of carry look-aheads? i think this is okay, because for the RED, the instructions clearly state for that one:
@@ -28,5 +28,11 @@ module CLA_16bit(A, B, Cin, S, Cout);
     // the CLA_4bit.v. it should be done once we get the 16-bit     //
     // result.                                                      //
     //////////////////////////////////////////////////////////////////
+    assign overflow_pos = (Cout & S[15]) | (~Cout & ~S[15] & (A[15] ^ B[15] ^ S[15]));
+    assign overflow_neg = (Cout & ~S[15]) | (~Cout & S[15] & (A[15] ^ B[15] ^ S[15]));
+
+    assign S = overflow_pos ? 16'h7FFF :
+                overflow_neg ? 16'h8000 :
+                S;
 
 endmodule
