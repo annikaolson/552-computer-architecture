@@ -17,7 +17,10 @@ module cpu(clk, rst_n, hlt, pc);
     wire [3:0] read_reg_1, read_reg_2, write_reg;   // registers to write to
     wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
     wire [3:0] imm;     // immediate for shifter operations
-
+    wire [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
+    wire [3:0] offset;  // offset for LW and SW
+    wire [2:0] branch_cond; // branch condition for B and BR
+    wire halt; // halt indicator
 
     //////////////////////////////////////////////////////////////////
     // control signals: used as select signal for mux outputs       //
@@ -80,6 +83,30 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     // register file - decode registers to write to or read from    //
     //////////////////////////////////////////////////////////////////
+    always@(*) begin
+		case (opcode)
+            // ALU Operations Assignments //
+            4'b0XXX :   begin rd = instruction[11:8]; rs = instruction[7:3]; rt = instruction[3:0]; imm = instruction[3:0]; end
+
+            // LW and SW Assignments //
+            4'b100X :   begin rt = instruction[11:8]; rs = instruction[7:3]; offset = instruction[3:0]; end
+
+            // LLB and LHB Assignments //
+            4'b101X :   begin rd = instruction[11:8]; imm_8bit = instruction[7:0]; end
+
+            // B (B) Assignment //
+            4'b1100 :   branch_cond = instruction[11:9];
+
+            // BR (branch register) Assignments //
+            4'b1101 :   begin  branch_cond = instruction[11:9]; rs = instuction[7:3]; end
+
+            // PCS Assignment //
+            4'b1110 :   rd = instruction[11:8];
+
+            // HLT Assignment //
+            4'b1111 : halt = 1'b1;
+        endcase
+    end
     assign read_reg_1 = instruction[];
     assign read_reg_2 = instruction[];
     RegisterFile rf(.clk(clk), .rst(rst_n), .SrcReg1(), .SrcReg2(), .DstReg(), .WriteReg(), .DstData(), .SrcData1(), .SrcData2());
@@ -101,9 +128,8 @@ module cpu(clk, rst_n, hlt, pc);
     assign ALU_B = ALUSrc ? sign_ext_imm : read_data_2;                 // NOTE: NEED TO ACTUALLY ASSIGN ALL THESE
     assign ALU_A = read_data_1;                                         // NOTE: DON'T NEED THIS ALU_A VAR, JUST MADE IT BC EASIER TO READ
     assign ALUOp = opcode;                                              // NOTE: DON'T NEED THIS EITHER TECHINCALLY
-    assign imm = instruction[3:0];
 
-    ALU alu(.A(ALU_A), .B(ALU_B), .rd(), .imm(imm), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V));
+    ALU alu(.A(ALU_A), .B(ALU_B), .rd(rd_val), .imm(imm), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //
