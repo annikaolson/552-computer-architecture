@@ -1,4 +1,4 @@
-module ALU(A, B, rd, imm, ALU_Out, Z, N, V);
+module ALU(A, B, rd, imm, ALU_Out, Z, N, V, Opcode);
 	input  [15:0] A, B;
 	input  [3:0] Opcode;
 	input  [3:0] imm;					

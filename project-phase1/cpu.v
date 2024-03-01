@@ -16,11 +16,16 @@ module cpu(clk, rst_n, hlt, pc);
     wire Z, N, V;   // flags: zero, sign, and overflow
     wire [3:0] read_reg_1, read_reg_2, write_reg;   // registers to write to
     wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
+    wire [3:0] rd, rs, rt;  // register numbers from instruction
     wire [3:0] imm;     // immediate for shifter operations
     wire [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
     wire [3:0] offset;  // offset for LW and SW
+    wire [8:0] branch_offset;   // label to jump to for B instruction
     wire [2:0] branch_cond; // branch condition for B and BR
+    wire [15:0] new_branch_addr;    // imm << 1 + pc + 2
+    wire [15:0] new_pc; // pc + 2
     wire halt; // halt indicator
+    wire cout;
 
     //////////////////////////////////////////////////////////////////
     // control signals: used as select signal for mux outputs       //
@@ -29,7 +34,6 @@ module cpu(clk, rst_n, hlt, pc);
     wire Branch;    // branch address is used when asserted
     wire ALUSrc;    // select the second ALU input: read data 2 or immediate
     wire RegWrite;  // whether a register is being written to or not
-    wire [3:0] ALUOp;   // ALU operation that should be performed
     wire MemWrite, MemRead; // see if memory should be read from or written to
     wire MemtoReg;  // 1 indicates a load word, in which memory access is written to a register
 
@@ -86,30 +90,41 @@ module cpu(clk, rst_n, hlt, pc);
     always@(*) begin
 		case (opcode)
             // ALU Operations Assignments //
-            4'b0XXX :   begin rd = instruction[11:8]; rs = instruction[7:3]; rt = instruction[3:0]; imm = instruction[3:0]; end
+            4'b0XXX :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; assign imm = instruction[3:0]; end
 
             // LW and SW Assignments //
-            4'b100X :   begin rt = instruction[11:8]; rs = instruction[7:3]; offset = instruction[3:0]; end
+            4'b100X :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; assign offset = instruction[3:0]; end
 
             // LLB and LHB Assignments //
-            4'b101X :   begin rd = instruction[11:8]; imm_8bit = instruction[7:0]; end
+            4'b101X :   begin assign rd = instruction[11:8]; assign imm_8bit = instruction[7:0]; end
 
             // B (B) Assignment //
-            4'b1100 :   branch_cond = instruction[11:9];
+            4'b1100 :   begin assign branch_cond = instruction[11:9]; assign branch_offset = instruction[8:0]; end
 
             // BR (branch register) Assignments //
-            4'b1101 :   begin  branch_cond = instruction[11:9]; rs = instuction[7:3]; end
+            4'b1101 :   begin  assign branch_cond = instruction[11:9]; assign rs = instuction[7:3]; end
 
             // PCS Assignment //
-            4'b1110 :   rd = instruction[11:8];
+            4'b1110 :   assign rd = instruction[11:8];
 
             // HLT Assignment //
-            4'b1111 : halt = 1'b1;
+            4'b1111 : assign hlt = 1'b1;
         endcase
     end
-    assign read_reg_1 = instruction[];
-    assign read_reg_2 = instruction[];
-    RegisterFile rf(.clk(clk), .rst(rst_n), .SrcReg1(), .SrcReg2(), .DstReg(), .WriteReg(), .DstData(), .SrcData1(), .SrcData2());
+
+    //////////////////////////////////////////////////////////////////
+    // sign-extend the 8-bit immediate value to 16 bits             //
+    //////////////////////////////////////////////////////////////////
+    assign sign_ext_imm = {{8{imm_8bit[7]}}, imm_8bit};
+
+    // **NOTE:** NOT SURE IF THIS IS RIGHT.. CHECK OVER
+    assign read_reg_1 = rs; // any instruction that uses a register in the ALU uses rs
+    assign read_reg_2 = rt;
+    assign write_reg = RegDst ? rd : rt;    // if ALU op, choose rd, otherwise (if memory) choose rt as destination
+    assign RegWrite = ~opcode[0] || (opcode == 4'b1000) || (opcode == 4'b1010) || (opcode == 4'b1011);
+
+    // **NOTE:** if we are not writing anything this time around, should reg write be 0? then it can be used at the end when we are ready to write?
+    RegisterFile rf(.clk(clk), .rst(rst_n), .SrcReg1(read_reg_1), .SrcReg2(read_reg_2), .DstReg(write_reg), .WriteReg(1'b0), .DstData(write_data), .SrcData1(read_data_1), .SrcData2(read_data_2));
 
     //////////////////////////////////////////////////////////////////
     // next instruction calculation: involves a shift of the        //
@@ -117,6 +132,11 @@ module cpu(clk, rst_n, hlt, pc);
     // then a mux to select the PC + 4 or PC + branch address       //
     // (PCsrc control signal)                                       //
     //////////////////////////////////////////////////////////////////
+    Shifter shift_imm(.Shift_out(imm_shl_1), .Shift_in(sign_ext_imm), .Shift_val(4'b0001), .Mode(1'b0));s
+    assign new_branch_addr = imm_shl_1 + pc + 2;    // for b instruction
+
+    CLA_16bit cla_pc(.A(pc), .B(16'h0002), .Cin(1'b0), .S(new_pc), .Cout(cout));                    // calculate new pc (pc + 2)
+    CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .Cin(1'b0), .S(new_branch_addr), .Cout(cout));  // calculate new branch addr (imm << 1 + pc + 2)
 
     //////////////////////////////////////////////////////////////////
     // ALU Adder: carry lookahead adder (CLA) logic for adding.     //
@@ -125,11 +145,10 @@ module cpu(clk, rst_n, hlt, pc);
     // data 2 or sign-extended immediate. can set zero flag (z),    //
     // overflow (V), or sign flag (N).                              //
     //////////////////////////////////////////////////////////////////
-    assign ALU_B = ALUSrc ? sign_ext_imm : read_data_2;                 // NOTE: NEED TO ACTUALLY ASSIGN ALL THESE
-    assign ALU_A = read_data_1;                                         // NOTE: DON'T NEED THIS ALU_A VAR, JUST MADE IT BC EASIER TO READ
-    assign ALUOp = opcode;                                              // NOTE: DON'T NEED THIS EITHER TECHINCALLY
+    assign ALU_B = ALUSrc ? sign_ext_imm : read_data_2;             
+    assign ALU_A = read_data_1;                                         
 
-    ALU alu(.A(ALU_A), .B(ALU_B), .rd(rd_val), .imm(imm), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V));
+    ALU alu(.A(ALU_A), .B(ALU_B), .rd(rd_val), .imm(imm), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V), .Opcode(opcode));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //
