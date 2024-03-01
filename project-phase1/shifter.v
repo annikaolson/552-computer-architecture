@@ -3,13 +3,14 @@ module Shifter(Shift_out, Shift_in, Shift_val, Mode);
 	input [0:1] Mode;             // to indicate 0 = SLL or 1 = SRA
 	input [15:0] Shift_in;  // input data to perform shift operation on
 	input [3:0] Shift_val;        // shift amount
-	output [15:0] Shift_out;      // shifted output data
+	output reg [15:0] Shift_out;      // shifted output data
 
 	wire [15:0] shft_stg1_right, shft_stg2_right, shft_stg3_right;
 	wire [15:0] shft_stg1_left, shft_stg2_left, shft_stg3_left;
 	wire [15:0] srl_stg1, srl_stg2, srl_stg3;
 	wire msb_sra;
 	wire [15:0] sra_out, sll_out, srl_out, ror_out;
+	wire [3:0] srl_Shift_val;
 
 	//////////////////////////////////////////////////////////////
 	// if mode is 01, then arithmetic shift right is peformed.  //
@@ -51,7 +52,7 @@ module Shifter(Shift_out, Shift_in, Shift_val, Mode);
 	// shifts right by 4
 	assign srl_stg3 = srl_Shift_val[2] ? (srl_stg2 >> 4) : srl_stg2;
 	// shifts right by 8
-	assign srl_out = srl_right_val[3] ? (srl_stg3 >> 8) : srl_stg3;
+	assign srl_out = srl_Shift_val[3] ? (srl_stg3 >> 8) : srl_stg3;
 	assign ror_out = sll_out | srl_out;
 
 	// Choose SRA or SLL based on mode

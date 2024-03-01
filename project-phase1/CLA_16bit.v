@@ -1,9 +1,9 @@
-module CLA_16bit(A, B, Cin, S, Cout);
-
+module CLA_16bit(A, B, Cin, S, Cout, Error);
     input [15:0] A, B;
     input Cin;
     output [15:0] S;
     output Cout;
+    output Error;
 
     wire [4:0] C;
     wire overflow_pos, overflow_neg;
@@ -30,6 +30,7 @@ module CLA_16bit(A, B, Cin, S, Cout);
     //////////////////////////////////////////////////////////////////
     assign overflow_pos = (Cout & S[15]) | (~Cout & ~S[15] & (A[15] ^ B[15] ^ S[15]));
     assign overflow_neg = (Cout & ~S[15]) | (~Cout & S[15] & (A[15] ^ B[15] ^ S[15]));
+    assign Error = (overflow_pos | overflow_neg != 16'h0000);
 
     assign S = overflow_pos ? 16'h7FFF :
                 overflow_neg ? 16'h8000 :

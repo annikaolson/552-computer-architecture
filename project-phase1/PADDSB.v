@@ -1,5 +1,4 @@
 module PADDSB(rs, rt, rd);
-
     input [15:0] rs, rt;
     output [15:0] rd;
 
@@ -30,18 +29,17 @@ module PADDSB(rs, rt, rd);
     //////////////////////
     // saturation logic //
     //////////////////////
-    assign rd[3:0] = (Overflow_Pos[0]) ? 7 : 
-                        (Overflow_Neg[0]) ? -8 : 
+    assign rd[3:0] = (overflow_pos[0]) ? 7 : 
+                        (overflow_neg[0]) ? -8 : 
                         Sum_1[3:0];
-    assign rd[7:4] = (Overflow_Pos[1]) ? 7 : 
-                        (Overflow_Neg[1]) ? -8 :
+    assign rd[7:4] = (overflow_pos[1]) ? 7 : 
+                        (overflow_neg[1]) ? -8 :
                         Sum_2[3:0];
-    assign rd[11:8] = (Overflow_Pos[2]) ? 7 : 
-                        (Overflow_Neg[2]) ? -8 : 
+    assign rd[11:8] = (overflow_pos[2]) ? 7 : 
+                        (overflow_neg[2]) ? -8 : 
                         Sum_3[3:0];
-    assign rd[15:12] = (Overflow_Pos[3]) ? 7 : 
-                            (Overflow_Neg[3]) ? -8 : 
+    assign rd[15:12] = (overflow_pos[3]) ? 7 : 
+                            (overflow_neg[3]) ? -8 : 
                             Sum_4[3:0];
-
 
 endmodule
