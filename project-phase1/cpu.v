@@ -7,8 +7,8 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     // intermediate variables used throughout CPU                   //
     //////////////////////////////////////////////////////////////////
-    wire [15:0] sign_ext_imm; // sign-extended immediate value
-    wire [15:0] imm_shl_1;  // value of immediate shifted left by one
+    wire [15:0] sign_ext_branch_imm; // sign-extended immediate value
+    wire [15:0] branch_imm_shl_1;  // value of immediate shifted left by one
     wire [15:0] ALU_A, ALU_B; // inputs to the ALU read from registers
     wire [3:0] opcode;  // opcode of the instruction
     wire [15:0] instruction;
@@ -18,6 +18,7 @@ module cpu(clk, rst_n, hlt, pc);
     wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
     reg [3:0] rd, rs, rt;  // register numbers from instruction
     wire [3:0] imm_offset;     // immediate for shifter operations, offset for LW and SW
+    wire [15:0] imm_offset_sign_ext;
     wire [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
     reg [8:0] branch_offset;   // label to jump to for B instruction
     reg [2:0] branch_cond; // branch condition for B and BR
@@ -47,7 +48,7 @@ module cpu(clk, rst_n, hlt, pc);
     // if reset goes low for one clock cycle, the pc is set back    //
     // to 0 to start execution at the beginning.                    //
     //////////////////////////////////////////////////////////////////
-    dff pc_dff(.q(next_pc), .d(pc), .wen(1'b1), .clk(clk), .rst(rst));
+    dff pc_dff(.q(next_pc), .d(pc), .wen(1'b1), .clk(clk), .rst(rst_n));
 
     //////////////////////////////////////////////////////////////////
     // inst. memory: using addr, find the 16-bit inst. to decode.   //
@@ -55,14 +56,13 @@ module cpu(clk, rst_n, hlt, pc);
     // decode the instruction: get the opcode, instruction type,    //
     // source, and destination registers to use for operation.      //
     //////////////////////////////////////////////////////////////////
-    memory1c instr_mem(.data_out(instruction), .data_in(16'b0), .addr(pc), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(rst_n));
+    memory_inst instr_mem(.data_out(instruction), .data_in(16'b0), .addr(pc), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(rst_n));
     assign opcode = instruction[15:12];
 
     //////////////////////////////////////////////////////////////////
     // register file - decode registers to write to or read from    //
     //////////////////////////////////////////////////////////////////
     assign imm_offset = instruction[3:0];
-    assign imm_8bit = instruction[7:0];
 
     always@(*) begin
 		case (opcode)
@@ -92,14 +92,15 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     // sign-extend the 8-bit immediate value to 16 bits             //
     //////////////////////////////////////////////////////////////////
-    assign sign_ext_imm = {{8{imm_8bit[7]}}, imm_8bit};
+    assign sign_ext_branch_imm = {{7{branch_offset[8]}}, branch_offset};
+    assign imm_offset_sign_ext = {{12{imm_offset[3]}}, imm_offset};
 
     // **NOTE:** NOT SURE IF THIS IS RIGHT.. CHECK OVER
     assign RegDst = (opcode[3:1] != 3'b100); // 0 if I-format, 1 otherwise
     assign read_reg_1 = rs; // any instruction that uses a register in the ALU uses rs
     assign read_reg_2 = rt;
     assign write_reg = RegDst ? rd : rt;    // if ALU op, choose rd, otherwise (if memory) choose rt as destination
-    assign RegWrite = ~opcode[0] || (opcode == 4'b1000) || (opcode == 4'b1010) || (opcode == 4'b1011); // will need to re-write 
+    assign RegWrite = ~opcode[0] | (opcode == 4'b1000) | (opcode == 4'b1010) | (opcode == 4'b1011); // will need to re-write 
 
     // **NOTE:** if we are not writing anything this time around, should reg write be 0? then it can be used at the end when we are ready to write?
     RegisterFile rf(.clk(clk), .rst(rst_n), .SrcReg1(read_reg_1), .SrcReg2(read_reg_2), .DstReg(write_reg), .WriteReg(1'b0), .DstData(16'h0000), .SrcData1(read_data_1), .SrcData2(read_data_2));
@@ -135,9 +136,8 @@ module cpu(clk, rst_n, hlt, pc);
     // then a mux to select the PC + 4 or PC + branch address       //
     // (PCsrc control signal)                                       //
     //////////////////////////////////////////////////////////////////
-    //Shifter shift_imm(.Shift_out(imm_shl_1), .Shift_in(sign_ext_imm), .Shift_val(4'b0001), .Mode(1'b0));
-    assign imm_shl_1 = sign_ext_imm << 1; // allowed to use shift w/ constants
-    //assign new_branch_addr = imm_shl_1 + pc + 2;    // for b instruction
+    assign branch_imm_shl_1 = sign_ext_branch_imm << 1; // allowed to use shift w/ constants
+    assign imm_offset_sign_ext = imm_offset_sign_ext << 1;
 
     CLA_16bit cla_b_pc(.A(pc), .B(16'h0002), .Cin(1'b0), .S(new_pc), .Cout(cout)); // calculate new pc (pc + 2)
     CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .Cin(1'b0), .S(b_pc), .Cout(cout));  // calculate new branch addr (imm << 1 + pc + 2)
@@ -170,10 +170,10 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     assign ALUSrc = (opcode[3] == 1'b0)     ? 1'b0 :
                     (opcode[3:1] == 3'b110) ? 1'b0 : 1'b1; // 0 if R-format or branch, 1 otherwise
-    assign ALU_B = ALUSrc ? sign_ext_imm : read_data_2;             
+    assign ALU_B = ALUSrc ? imm_offset_sign_ext : read_data_2;             
     assign ALU_A = read_data_1;                                         
 
-    ALU alu(.A(ALU_A), .B(ALU_B), .rd(rd_val), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V), .Opcode(opcode));
+    ALU alu(.A(ALU_A), .B(ALU_B), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V), .Opcode(opcode));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //
@@ -187,7 +187,7 @@ module cpu(clk, rst_n, hlt, pc);
 
     assign MemWrite = (opcode == 4'b1001); // 1 if store, 0 otherwise
 
-    memory1c data_mem(.data_out(mem_read_data), .data_in(read_data_2), .addr(ALU_Out), .enable(MemRead), .wr(MemWrite), .clk(clk), .rst(rst_n));
+    memory_data data_mem(.data_out(mem_read_data), .data_in(read_data_2), .addr(ALU_Out), .enable(MemRead), .wr(MemWrite), .clk(clk), .rst(rst_n));
 
     assign write_data = (MemtoReg) ? mem_read_data : ALU_Out;
 
