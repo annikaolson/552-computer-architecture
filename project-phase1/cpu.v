@@ -10,11 +10,14 @@ module cpu(clk, rst_n, hlt, pc);
     wire [15:0] sign_ext_imm; // sign-extended immediate value
     wire [15:0] imm_shl_1;  // value of immediate shifted left by one
     wire [15:0] ALU_A, ALU_B; // inputs to the ALU read from registers
-    wire [15:0] read_data_1, read_data_2;   // the data read from the selected registers
     wire [3:0] opcode;  // opcode of the instruction
     wire [15:0] instruction;
     wire [15:0] ALU_Out;    // output of ALU
     wire Z, N, V;   // flags: zero, sign, and overflow
+    wire [3:0] read_reg_1, read_reg_2, write_reg;   // registers to write to
+    wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
+    wire [3:0] imm;     // immediate for shifter operations
+
 
     //////////////////////////////////////////////////////////////////
     // control signals: used as select signal for mux outputs       //
@@ -46,7 +49,7 @@ module cpu(clk, rst_n, hlt, pc);
     // decode the instruction: get the opcode, instruction type,    //
     // source, and destination registers to use for operation.      //
     //////////////////////////////////////////////////////////////////
-                                                                        // NOTE: GET INSTRUCTION FROM MEM
+    memory1c instr_mem(.data_out(instruction), .data_in(16'b0), .addr(pc), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(rst_n));
     assign opcode = instruction[3:0];
 
     //////////////////////////////////////////////////////////////////
@@ -77,6 +80,9 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     // register file - decode registers to write to or read from    //
     //////////////////////////////////////////////////////////////////
+    assign read_reg_1 = instruction[];
+    assign read_reg_2 = instruction[];
+    RegisterFile rf(.clk(clk), .rst(rst_n), .SrcReg1(), .SrcReg2(), .DstReg(), .WriteReg(), .DstData(), .SrcData1(), .SrcData2());
 
     //////////////////////////////////////////////////////////////////
     // next instruction calculation: involves a shift of the        //
@@ -95,8 +101,9 @@ module cpu(clk, rst_n, hlt, pc);
     assign ALU_B = ALUSrc ? sign_ext_imm : read_data_2;                 // NOTE: NEED TO ACTUALLY ASSIGN ALL THESE
     assign ALU_A = read_data_1;                                         // NOTE: DON'T NEED THIS ALU_A VAR, JUST MADE IT BC EASIER TO READ
     assign ALUOp = opcode;                                              // NOTE: DON'T NEED THIS EITHER TECHINCALLY
+    assign imm = instruction[3:0];
 
-    ALU alu(.A(ALU_A), .B(ALU_B), .rd(), .imm(), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V));
+    ALU alu(.A(ALU_A), .B(ALU_B), .rd(), .imm(imm), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //
