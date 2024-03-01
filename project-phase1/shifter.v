@@ -17,42 +17,68 @@ module Shifter(Shift_out, Shift_in, Shift_val, Mode);
 	// the most significant bit must be replicated, so we must  //
 	// keep track of the MSB to replicate when shifting.        //
 	//////////////////////////////////////////////////////////////
+	always@(*) begin
+		case (Shift_val[1:0])
+			2'b00 : assign shft_stg1_right = Shift_in; // shift 0
+			2'b01 : assign shft_stg1_right = {msb_sra, Shift_in[15:1]}; // shift 1
+			2'b10 : assign shft_stg1_right = {{2{msb_sra}}, Shift_in[15:2]}; // shift 2
+			2'b11 : assign shft_stg1_right = {{3{msb_sra}}, Shift_in[15:2]}; // shift 3
+		endcase
+	end
 
-	assign msb_sra = Mode && Shift_in[15];
-	// shifts right 1, replicates MSB
-	assign shft_stg1_right = Shift_val[0] ? {msb_sra, Shift_in[15:1]} : Shift_in;
-	// shifts right 2
-	assign shft_stg2_right = Shift_val[1] ? {{2{msb_sra}}, shft_stg1_right[15:2]} : shft_stg1_right;
-	// shifts right 4
-	assign shft_stg3_right = Shift_val[2] ? {{4{msb_sra}}, shft_stg2_right[15:4]} : shft_stg2_right;
-	// shifts right 8
-	assign sra_out = Shift_val[3] ? {{8{msb_sra}}, shft_stg3_right[15:8]} : shft_stg3_right;
+	always@(*) begin
+		case (Shift_val[3:2])
+			2'b00 : assign shft_stg2_right = shift_stg1_right; // shift 0
+			2'b01 : assign shft_stg2_right = {{4{msb_sra}}, shift_stg1_right[15:1]}; // shift 1 more
+			2'b10 : assign shft_stg2_right = {{8{msb_sra}}, shft_stg1_right[15:2]}; // shift 2 more
+			2'b11 : assign sra_out = {{12{msb_sra}}, shft_stg1_right[15:2]}; // shift 3 more
+		endcase
+	end
 
 	/////////////////////////////////////////////
 	// if mode is 00, then logical shift left. //
 	/////////////////////////////////////////////
+	always@(*) begin
+		case (Shift_val[1:0])
+			2'b00 : assign shft_stg1_left = Shift_in; // shift 0
+			2'b01 : assign shft_stg1_left = Shift_in << 1; // shift 1
+			2'b10 : assign shft_stg1_left = Shift_in << 2; // shift 2
+			2'b11 : assign shft_stg1_left = Shift_in << 3; // shift 3
+		endcase
+	end 
 
-	// shifts left by 1 if bit 0 indicates such, otherwise keeps original value
-	assign shft_stg1_left = Shift_val[0] ? (Shift_in << 1) : Shift_in;
-	// shifts left by 2
-	assign shft_stg2_left = Shift_val[1] ? (shft_stg1_left << 2) : shft_stg1_left;
-	// shifts left by 4
-	assign shft_stg3_left = Shift_val[2] ? (shft_stg2_left << 4) : shft_stg2_left;
-	// shifts left by 8
-	assign sll_out = Shift_val[3] ? (shft_stg3_left << 8) : shft_stg3_left;
+	always@(*) begin
+		case (Shift_val[3:2])
+			2'b00 : assign shft_stg2_left = shft_stg1_left; // shift 0
+			2'b01 : assign shft_stg2_left = shft_stg1_left << 4; // shift 1
+			2'b10 : assign shft_stg2_left = shft_stg1_left << 8; // shift 2
+			2'b11 : assign sll_out = shft_stg1_left << 12; // shift 3
+		endcase
+	end
 
 	//////////////////////////////////////
 	// if mode is 10, then right rotate //
 	//////////////////////////////////////
-	assign srl_Shift_val = ~Shift_val;
-	// shifts right by 1
-	assign srl_stg1 = srl_Shift_val[0] ? (Shift_in >> 1) : Shift_in;
-	// shifts right by 2
-	assign srl_stg2 = srl_Shift_val[1] ? (srl_stg1 >> 2) : srl_stg1;
-	// shifts right by 4
-	assign srl_stg3 = srl_Shift_val[2] ? (srl_stg2 >> 4) : srl_stg2;
-	// shifts right by 8
-	assign srl_out = srl_Shift_val[3] ? (srl_stg3 >> 8) : srl_stg3;
+	assign srl_Shift_val = ~Shift_val; // srl shift val = max value - shift val = !shift val
+
+	always@(*) begin
+		case (srl_Shift_val[1:0])
+			2'b00 : assign srl_stg1 = Shift_in; // shift 0
+			2'b01 : assign srl_stg1 = Shift_in >> 1; // shift 1
+			2'b10 : assign srl_stg1 = Shift_in >> 2; // shift 2
+			2'b11 : assign srl_stg1 = Shift_in >> 3; // shift 3
+		endcase
+	end 
+
+	always@(*) begin
+		case (srl_Shift_val[3:2])
+			2'b00 : assign srl_stg2 = srl_stg1; // shift 0
+			2'b01 : assign srl_stg2 = srl_stg1 >> 4; // shift 1
+			2'b10 : assign srl_stg2 = srl_stg1 >> 8; // shift 2
+			2'b11 : assign srl_out = srl_stg1 >> 12; // shift 3
+		endcase
+	end
+
 	assign ror_out = sll_out | srl_out;
 
 	// Choose SRA or SLL based on mode
