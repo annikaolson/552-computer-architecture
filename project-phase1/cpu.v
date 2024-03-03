@@ -13,7 +13,6 @@ module cpu(clk, rst_n, hlt, pc);
     wire [3:0] opcode;  // opcode of the instruction
     wire [15:0] instruction;
     wire [15:0] ALU_Out;    // output of ALU
-    wire Z, N, V;   // flags: zero, sign, and overflow
     wire [3:0] read_reg_1, read_reg_2, write_reg;   // registers to write to
     wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
     reg [3:0] rd, rs, rt;  // register numbers from instruction
@@ -31,6 +30,7 @@ module cpu(clk, rst_n, hlt, pc);
     wire [15:0] reg_write_data; // data to write to register
     wire [15:0] LLB_data; // LLB data
     wire [15:0] LHB_data; // LHB_data
+    wire [2:0] flag;    // {Z, V, N}
 
     //////////////////////////////////////////////////////////////////
     // control signals: used as select signal for mux outputs       //
@@ -90,10 +90,10 @@ module cpu(clk, rst_n, hlt, pc);
     end
 
     //////////////////////////////////////////////////////////////////
-    // sign-extend the 8-bit immediate value to 16 bits             //
+    // immediate for shift and lw and sw instructions               //
     //////////////////////////////////////////////////////////////////
-    assign sign_ext_branch_imm = {{7{branch_offset[8]}}, branch_offset};
     assign imm_offset_sign_ext = {{12{imm_offset[3]}}, imm_offset};
+    assign imm_offset_sign_ext = imm_offset_sign_ext << 1;
 
     // **NOTE:** NOT SURE IF THIS IS RIGHT.. CHECK OVER
     assign RegDst = (opcode[3:1] != 3'b100); // 0 if I-format, 1 otherwise
@@ -131,35 +131,15 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////
-    // next instruction calculation: involves a shift of the        //
-    // immediate value to get the branch address to add to the PC,  //
-    // then a mux to select the PC + 4 or PC + branch address       //
-    // (PCsrc control signal)                                       //
+    // calculate the next PC: PC + 2 if not a branch instruction    //
+    // or PC + 2 + offset if a branch; this offset can either be an //
+    // immediate (B) or a value in a register (BR). next_pc hold    //
+    // this next pc calculation for the next instruction.           //
+    // read_data_1 holds the data read from the rs register.        //
     //////////////////////////////////////////////////////////////////
-    assign branch_imm_shl_1 = sign_ext_branch_imm << 1; // allowed to use shift w/ constants
-    assign imm_offset_sign_ext = imm_offset_sign_ext << 1;
+    PC_control(.C(branch_cond), .I(branch_offset), .F(flag), .PC_in(pc), .rs_data(read_data_1), .opcode(opcode), .PC_out(next_pc));
 
-    CLA_16bit cla_b_pc(.A(pc), .B(16'h0002), .S(new_pc), .Cout(cout), .Sub(1'b0)); // calculate new pc (pc + 2)
-    CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .S(b_pc), .Cout(cout), .Sub(1'b0));  // calculate new branch addr (imm << 1 + pc + 2)
-    
-    // rs data + pc //
-    CLA_16bit cla_br_pc(.A(pc), .B(read_data_1), .S(br_pc), .Cout(cout), .Sub(1'b0));
-
-    always@(*) begin
-		case (branch_cond)
-            3'b000 : assign Branch = (Z == 0); // Not equal, Z = 0
-            3'b001 : assign Branch = (Z == 1); // Equal, Z = 1
-            3'b010 : assign Branch = !(Z|N); // Greater than, Z = N = 0
-            3'b011 : assign Branch = N; // Less than, N = 1
-            3'b100 : assign Branch = (Z|(!(Z|N))); // Greater than or equal, Z = 1 or Z = N = 0
-            3'b101 : assign Branch = N|Z; // Less than or equal, N = 1 or Z = 1
-            3'b110 : assign Branch = V; // Overflow, V = 1
-            3'b111 : assign Branch = 1'b1; // Unconditional
-        endcase
-    end
-
-    assign next_pc = (Branch & opcode == 1100) ? b_pc :
-                     (Branch & opcode == 1101) ? br_pc : new_pc;
+    // Add PCS instruction
 
     //////////////////////////////////////////////////////////////////
     // ALU Adder: carry lookahead adder (CLA) logic for adding.     //
@@ -173,7 +153,7 @@ module cpu(clk, rst_n, hlt, pc);
     assign ALU_B = ALUSrc ? imm_offset_sign_ext : read_data_2;             
     assign ALU_A = read_data_1;                                         
 
-    ALU alu(.A(ALU_A), .B(ALU_B), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(Z), .N(N), .V(V), .Opcode(opcode));
+    ALU alu(.A(ALU_A), .B(ALU_B), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(flag[2]), .N(flag[0]), .V(flag[1]), .Opcode(opcode));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //

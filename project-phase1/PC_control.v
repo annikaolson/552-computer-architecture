@@ -5,7 +5,6 @@ module PC_control(input C[2:0], input I[8:0], input F[2:0], input PC_in[15:0], i
     wire [15:0] branch_imm_sign_ext;
     wire [15:0] branch_imm;
     wire [15:0] new_pc, b_pc, br_pc;
-    wire [15:0] 
     wire Z_flag, V_flag, N_flag;
     wire Branch;
 
@@ -16,9 +15,9 @@ module PC_control(input C[2:0], input I[8:0], input F[2:0], input PC_in[15:0], i
     assign branch_imm_sign_ext = {{7{I[8]}}, I}; // sign extend immediate
     assign branch_imm = branch_imm_sign_ext << 1; // shift sign extended immediate left by one
 
-    CLA_16bit cla_b_pc(.A(PC_in), .B(16'h0002), .Cin(1'b0), .S(new_pc), .Cout(cout)); // calculate new pc (pc + 2)
-    CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .Cin(1'b0), .S(b_pc), .Cout(cout));  // calculate new branch addr (imm << 1 + pc + 2)
-    CLA_16bit cla_br_pc(.A(PC_in), .B(rs_data), .Cin(1'b0), .S(br_pc), .Cout(cout)); // calculate new branch register addr (pc + rs)
+    CLA_16bit cla_b_pc(.A(PC_in), .B(16'h0002), .S(new_pc), .Cout(cout), .Sub(1'b0)); // calculate new pc (pc + 2)
+    CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .S(b_pc), .Cout(cout), .Sub(1'b0));  // calculate new branch addr (imm << 1 + pc + 2)
+    CLA_16bit cla_br_pc(.A(PC_in), .B(rs_data), .S(br_pc), .Cout(cout), .Sub(1'b0)); // calculate new branch register addr (pc + rs)
 
     assign Z_flag = F[2]; // done for readability
     assign V_flag = F[1];
