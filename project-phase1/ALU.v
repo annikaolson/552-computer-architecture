@@ -5,7 +5,7 @@ module ALU(A, B, imm, ALU_Out, Z, N, V, Opcode);
 	output reg [15:0] ALU_Out;
 	output reg Z, N, V;
 
-	////////////////////////////
+	////////////////////////////sub
 	// Intermediate Variables //
 	////////////////////////////
 	wire [15:0] ADDSUB_out;
@@ -30,12 +30,12 @@ module ALU(A, B, imm, ALU_Out, Z, N, V, Opcode);
 	// Add: Opcode[0] = 0 //
 	// Sub: Opcode[0] = 1 //
 	////////////////////////
-	CLA_16bit cla(.A(A), .B(B ^ Opcode[0]), .Cin(1'b0), .S(ADDSUB_out), .Cout(cout), .Error(Error));
+	CLA_16bit cla(.A(A), .B(B), .S(ADDSUB_out), .Cout(cout), .Sub(Opcode[0]));
 
 	//////////////////////////////////////////////////////
 	// CLA for calculating the memory address to access	//
 	//////////////////////////////////////////////////////
-	CLA_16bit cla(.A(A & 16'hFFFE), .B(B), .Cin(1'b0), .S(MEM_Addr), .Cout(cout), .Error(Error));
+	CLA_16bit cla(.A(A & 16'hFFFE), .B(B), .S(MEM_Addr), .Cout(cout), .Sub(1'b0));
 
 	/////////////////////////////////////////////////////
 	// RED: performs reduction on 4 byte-size operands //

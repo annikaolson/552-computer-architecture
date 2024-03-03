@@ -9,10 +9,10 @@ module PADDSB(rs, rt, rd);
     ///////////////////////////////////////////////
     // Instantiate carry lookahead adder 4 times //
     ///////////////////////////////////////////////
-    CLA add3_0(.A(rs[3:0]), .B(rt[3:0]), .Cin(1'b0), .S(Sum_1), .Cout(C[0]));
-    CLA add7_4(.A(rs[7:4]), .B(rt[7:4]), .Cin(1'b0), .S(Sum_2), .Cout(C[1]));
-    CLA add11_8(.A(rs[11:8]), .B(rt[11:8]), .Cin(1'b0), .S(Sum_3), .Cout(C[2]));
-    CLA add15_12(.A(rs[15:12]), .B(rt[15:12]), .Cin(1'b0), .S(Sum_4), .Cout(C[3]));
+    CLA_4bit add3_0(.A(rs[3:0]), .B(rt[3:0]), .Cin(1'b0), .S(Sum_1), .Cout(C[0]));
+    CLA_4bit add7_4(.A(rs[7:4]), .B(rt[7:4]), .Cin(1'b0), .S(Sum_2), .Cout(C[1]));
+    CLA_4bit add11_8(.A(rs[11:8]), .B(rt[11:8]), .Cin(1'b0), .S(Sum_3), .Cout(C[2]));
+    CLA_4bit add15_12(.A(rs[15:12]), .B(rt[15:12]), .Cin(1'b0), .S(Sum_4), .Cout(C[3]));
 
     //////////////////////////////
     // Calculate overflow flags //

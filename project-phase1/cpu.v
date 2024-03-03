@@ -48,7 +48,7 @@ module cpu(clk, rst_n, hlt, pc);
     // if reset goes low for one clock cycle, the pc is set back    //
     // to 0 to start execution at the beginning.                    //
     //////////////////////////////////////////////////////////////////
-    dff pc_dff(.q(next_pc), .d(pc), .wen(1'b1), .clk(clk), .rst(rst_n));
+    dff pc_dff(.q(pc), .d(next_pc), .wen(!hlt), .clk(clk), .rst(rst_n));
 
     //////////////////////////////////////////////////////////////////
     // inst. memory: using addr, find the 16-bit inst. to decode.   //
@@ -139,11 +139,11 @@ module cpu(clk, rst_n, hlt, pc);
     assign branch_imm_shl_1 = sign_ext_branch_imm << 1; // allowed to use shift w/ constants
     assign imm_offset_sign_ext = imm_offset_sign_ext << 1;
 
-    CLA_16bit cla_b_pc(.A(pc), .B(16'h0002), .Cin(1'b0), .S(new_pc), .Cout(cout)); // calculate new pc (pc + 2)
-    CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .Cin(1'b0), .S(b_pc), .Cout(cout));  // calculate new branch addr (imm << 1 + pc + 2)
+    CLA_16bit cla_b_pc(.A(pc), .B(16'h0002), .S(new_pc), .Cout(cout), .Sub(1'b0)); // calculate new pc (pc + 2)
+    CLA_16bit cla_branch(.A(new_pc), .B(imm_shl_1), .S(b_pc), .Cout(cout), .Sub(1'b0));  // calculate new branch addr (imm << 1 + pc + 2)
     
     // rs data + pc //
-    CLA_16bit cla_br_pc(.A(pc), .B(read_data_1), .Cin(1'b0), .S(br_pc), .Cout(cout));
+    CLA_16bit cla_br_pc(.A(pc), .B(read_data_1), .S(br_pc), .Cout(cout), .Sub(1'b0));
 
     always@(*) begin
 		case (branch_cond)

@@ -1,21 +1,19 @@
-module CLA_16bit(A, B, Cin, S, Cout, Error);
+module CLA_16bit(A, B, S, Cout, Sub);
     input [15:0] A, B;
-    input Cin;
+    input Sub;
     output [15:0] S;
     output Cout;
-    output Error;
 
     wire [4:0] C;
     wire overflow_pos, overflow_neg;
+    wire [15:0] new_B;
 
-    // NOTE: not sure if this is okay, because isn't this essentially a ripple carry
-    // of carry look-aheads? i think this is okay, because for the RED, the instructions clearly state for that one:
-    // "in which this 8- bit adder is constructed from two 4-bit CLAs" - so i think we can use these 4 for a 16 bit adder!
+    assign new_B = Sub ? ~B : B;
 
-    CLA add3_0(.A(A[3:0]), .B(B[3:0]), .Cin(Cin), .S(S[3:0]), .Cout(C[1]));
-    CLA add7_4(.A(A[7:4]), .B(B[7:4]), .Cin(C[1]), .S(S[7:4]), .Cout(C[2]));
-    CLA add11_8(.A(A[11:8]), .B(B[11:8]), .Cin(C[2]), .S(S[11:8]), .Cout(C[3]));
-    CLA add15_12(.A(A[15:12]), .B(B[15:12]), .Cin(C[3]), .S(S[15:12]), .Cout(Cout));
+    CLA_4bit add3_0(.A(A[3:0]), .B(new_B[3:0]), .Cin(Sub), .S(S[3:0]), .Cout(C[1]));
+    CLA_4bit add7_4(.A(A[7:4]), .B(new_B[7:4]), .Cin(C[1]), .S(S[7:4]), .Cout(C[2]));
+    CLA_4bit add11_8(.A(A[11:8]), .B(new_B[11:8]), .Cin(C[2]), .S(S[11:8]), .Cout(C[3]));
+    CLA_4bit add15_12(.A(A[15:12]), .B(new_B[15:12]), .Cin(C[3]), .S(S[15:12]), .Cout(Cout));
 
     //////////////////////////////////////////////////////////////////
     // saturation: if there is overflow, then the sum should be     //
@@ -30,7 +28,6 @@ module CLA_16bit(A, B, Cin, S, Cout, Error);
     //////////////////////////////////////////////////////////////////
     assign overflow_pos = (Cout & S[15]) | (~Cout & ~S[15] & (A[15] ^ B[15] ^ S[15]));
     assign overflow_neg = (Cout & ~S[15]) | (~Cout & S[15] & (A[15] ^ B[15] ^ S[15]));
-    assign Error = (overflow_pos | overflow_neg != 16'h0000);
 
     assign S = overflow_pos ? 16'h7FFF :
                 overflow_neg ? 16'h8000 :
