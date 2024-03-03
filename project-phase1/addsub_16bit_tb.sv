@@ -1,11 +1,13 @@
 module addsub_16bit_tb();
 
 	// inputs and outputs for the 4-bit adder/subtractor
-	logic [15:0] A, B, sum, sum_test;
-	logic ovfl, sub, error;
+	reg [15:0] A, B;
+	reg sub;
+	wire [15:0] sum;
+	wire ovfl;
 
 	// instantiate module
-	CLA_16bit iDUT(.S(sum), .Cout(ovfl), .A(A), .B(B), .Error(error), .Sub(sub));
+	CLA_16bit iDUT(.S(sum), .Cout(ovfl), .A(A), .B(B), .Sub(sub));
 
 	/////////////////////////////////////
 	// test 4-bit adder on any number  //
@@ -20,6 +22,7 @@ module addsub_16bit_tb();
 		#5
 		if (sum !== 16'h7FFF) begin
 			$display("Sum was %d but should be 7FFF", sum);
+			$stop();
 		end
 
 		#2
@@ -28,9 +31,9 @@ module addsub_16bit_tb();
 		assign B = -32767;
 		assign sub = 0;
 		#2
-		if (sum !== 16'hFFFF) begin
+		if (sum !== 16'h8000) begin
 			$display("Sum was %d but should be FFFF", sum);
-
+			$stop();
 		end
 
 		#2
@@ -41,7 +44,7 @@ module addsub_16bit_tb();
 		#2
 		if (sum !== 19) begin
 			$display("Sum was %d but should be 19", sum);
-	
+			$stop();
 		end
 
 
@@ -53,7 +56,7 @@ module addsub_16bit_tb();
 		#2
 		if (sum !== 7) begin
 			$display("Sum was %d but should be 7", sum);
-	
+			$stop();
 		end
 
 		#2
@@ -64,7 +67,7 @@ module addsub_16bit_tb();
 		#2
 		if (sum !== 7) begin
 			$display("Sum was %d but should be 7", sum);
-	
+			$stop();
 		end
 
 		#2
@@ -75,7 +78,7 @@ module addsub_16bit_tb();
 		#2
 		if (sum !== 16) begin
 			$display("Sum was %d but should be 16", sum);
-		
+			$stop();
 		end
 
 		$display("all tests passed");

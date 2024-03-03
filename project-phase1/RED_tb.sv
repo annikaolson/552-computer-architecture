@@ -1,6 +1,7 @@
 module red_tb();
 
-	logic [15:0] rs, rt, rd;
+	reg [15:0] rs, rt;
+	wire [15:0] rd;
 
 	RED iDUT(.rs(rs), .rt(rt), .rd(rd));
 
