@@ -175,9 +175,10 @@ module cpu(clk, rst_n, hlt, pc);
 
     assign LHB_data = {imm_8bit[15:8], write_data[7:0]};
 
-    // Set register write data to either LLB data, LHB data, or ALU output based on opcode //
+    // Set register write data to either LLB data, LHB data, next pc (PCS), or ALU output based on opcode //
     assign reg_write_data = (opcode == 4'b1010) ? LLB_data :
-                            (opcode == 4'b1011) ? LHB_data : ALU_Out;
+                            (opcode == 4'b1011) ? LHB_data :
+                            (opcode == 4'b1110) ? next_pc : ALU_Out;
 
     ////////////////////
     // Register Write //
