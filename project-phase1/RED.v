@@ -15,6 +15,7 @@ module RED(rs, rt, rd);
     wire [7:0] rs_lower, rs_upper, rt_lower, rt_upper;
     reg [8:0] SumAB, SumCD;
     wire cout1, cout2, cout3, cout4, cout5;
+    wire [3:0] bit8_4bit_AB, bit8_4bit_CD;
 
     //////////////////////////////////////////////
     // get lower and upper bits of each operand //
@@ -38,7 +39,11 @@ module RED(rs, rt, rd);
     /////////////////////////////////////////////////////////////////////
     CLA_4bit cla_sum1(.A(SumAB[3:0]), .B(SumCD[3:0]), .Cin(1'b0), .S(rd[3:0]), .Cout(cout3));
     CLA_4bit cla_sum2(.A(SumAB[7:4]), .B(SumCD[7:4]), .Cin(cout3), .S(rd[7:4]), .Cout(cout4));
-    CLA_4bit cla_sum3(.A(SumAB[8]), .B(SumCD[8]), .Cin(cout4), .S(rd[11:8]), .Cout(cout5));
+    
+    // extend the 8th bit to a 4-digit number for the correct port length
+    assign bit8_4bit_AB = {3'b0,SumAB[8]};
+    assign bit8_4bit_CD = {3'b0,SumCD[8]};
+    CLA_4bit cla_sum3(.A(bit8_4bit_AB), .B(bit8_4bit_CD), .Cin(cout4), .S(rd[11:8]), .Cout(cout5));
 
     //////////////////////////////////////////////////////////////////
     // sign extend the sum to a 16-bit number to be placed in rd    //
