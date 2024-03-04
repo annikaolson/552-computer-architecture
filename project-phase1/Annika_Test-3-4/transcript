@@ -1,0 +1,393 @@
+# Compile of memory.v was successful.
+# Compile of project-phase1-testbench.v was successful.
+vsim -voptargs=+acc work.cpu_tb
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 13:43:52 on Mar 04,2024
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.dff(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite \
+sim:/cpu_tb/DUT/MemRead \
+sim:/cpu_tb/DUT/MemEnable \
+sim:/cpu_tb/DUT/MemtoReg
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlft2gqg44".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft2gqg44
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# ** Note: $finish    : I:/ECE552/test-3-4/project-phase1-testbench.v(126)
+#    Time: 1300 ns  Iteration: 1  Instance: /cpu_tb
+# 1
+# Break in Module cpu_tb at I:/ECE552/test-3-4/project-phase1-testbench.v line 126
+# Causality operation skipped due to absence of debug database file
+quit -sim
+# End time: 14:08:27 on Mar 04,2024, Elapsed time: 0:24:35
+# Errors: 0, Warnings: 5
+# Compile of cpu.v failed with 6 errors.
+# Compile of ALU.v was successful.
+# Compile of cpu.v failed with 4 errors.
+# Compile of cpu.v was successful.
+vsim -voptargs=+acc work.cpu_tb
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 14:11:08 on Mar 04,2024
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.dff(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/Z \
+sim:/cpu_tb/DUT/V \
+sim:/cpu_tb/DUT/N \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlftnkznq8".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftnkznq8
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# ** Note: $finish    : I:/ECE552/test-3-4/project-phase1-testbench.v(126)
+#    Time: 1400 ns  Iteration: 1  Instance: /cpu_tb
+# 1
+# Break in Module cpu_tb at I:/ECE552/test-3-4/project-phase1-testbench.v line 126
+quit -sim
+# End time: 14:15:54 on Mar 04,2024, Elapsed time: 0:04:46
+# Errors: 0, Warnings: 7
+# Compile of PC_control.v was successful.
+vsim -voptargs=+acc work.cpu_tb
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 14:16:06 on Mar 04,2024
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.dff(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/Z \
+sim:/cpu_tb/DUT/V \
+sim:/cpu_tb/DUT/N \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite \
+sim:/cpu_tb/DUT/MemRead \
+sim:/cpu_tb/DUT/MemEnable \
+sim:/cpu_tb/DUT/MemtoReg
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlftvejtvg".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftvejtvg
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# Break key hit
+# Simulation stop requested.
+# Compile of addsub_16bit_tb.sv was successful.
+# Compile of ALU.v was successful.
+# Compile of BitCell.v was successful.
+# Compile of CLA_4bit.v was successful.
+# Compile of CLA_16bit.v was successful.
+# Compile of cpu.v was successful.
+# Compile of D-Flip-Flop.v was successful.
+# Compile of full_adder_1bit.v was successful.
+# Compile of memory.v was successful.
+# Compile of PADDSB.v was successful.
+# Compile of PADDSB_tb.sv was successful.
+# Compile of PC_control.v was successful.
+# Compile of project-phase1-testbench.v was successful.
+# Compile of PSA.v was successful.
+# Compile of ReadDecoder_4_16.v was successful.
+# Compile of RED.v was successful.
+# Compile of RED_tb.sv was successful.
+# Compile of Register.v was successful.
+# Compile of RegisterFile.v was successful.
+# Compile of shifter.v was successful.
+# Compile of WriteDecoder_4_16.v was successful.
+# 21 compiles, 0 failed with no errors.
+vsim -voptargs=+acc work.cpu_tb
+# End time: 14:20:23 on Mar 04,2024, Elapsed time: 0:04:17
+# Errors: 0, Warnings: 5
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 14:20:23 on Mar 04,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.dff(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/Z \
+sim:/cpu_tb/DUT/V \
+sim:/cpu_tb/DUT/N \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite \
+sim:/cpu_tb/DUT/MemRead \
+sim:/cpu_tb/DUT/MemEnable \
+sim:/cpu_tb/DUT/MemtoReg
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlft93cdc0".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft93cdc0
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# Break key hit
+# Simulation stop requested.
+vsim -voptargs=+acc work.cpu_tb
+# End time: 14:21:19 on Mar 04,2024, Elapsed time: 0:00:56
+# Errors: 0, Warnings: 3
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 14:21:19 on Mar 04,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.dff(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/Z \
+sim:/cpu_tb/DUT/V \
+sim:/cpu_tb/DUT/N \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite \
+sim:/cpu_tb/DUT/MemRead \
+sim:/cpu_tb/DUT/MemEnable \
+sim:/cpu_tb/DUT/MemtoReg
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlfte252yz".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlfte252yz
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# Break key hit
+# Simulation stop requested.
