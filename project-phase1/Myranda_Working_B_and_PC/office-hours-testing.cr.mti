@@ -1,0 +1,150 @@
+I:/ECE552/project-phase1/RegisterFile.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/RegisterFile.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module RegisterFile
+
+Top level modules:
+	RegisterFile
+
+} {} {}} I:/ECE552/project-phase1/Register.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/Register.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module Register
+
+Top level modules:
+	Register
+
+} {} {}} I:/ECE552/project-phase1/CLA_16bit.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/CLA_16bit.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module CLA_16bit
+
+Top level modules:
+	CLA_16bit
+
+} {} {}} I:/ECE552/project-phase1/PADDSB_tb.sv {1 {vlog -work work -vopt -sv -stats=none I:/ECE552/project-phase1/PADDSB_tb.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module paddsb_tb
+
+Top level modules:
+	paddsb_tb
+
+} {} {}} I:/ECE552/project-phase1/flag_reg.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/flag_reg.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module flag_reg
+
+Top level modules:
+	flag_reg
+
+} {} {}} I:/ECE552/project-phase1/addsub_16bit_tb.sv {1 {vlog -work work -vopt -sv -stats=none I:/ECE552/project-phase1/addsub_16bit_tb.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module addsub_16bit_tb
+
+Top level modules:
+	addsub_16bit_tb
+
+} {} {}} I:/ECE552/project-phase1/WriteDecoder_4_16.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/WriteDecoder_4_16.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module WriteDecoder_4_16
+
+Top level modules:
+	WriteDecoder_4_16
+
+} {} {}} I:/ECE552/project-phase1/D-Flip-Flop.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/D-Flip-Flop.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module dff
+
+Top level modules:
+	dff
+
+} {} {}} I:/ECE552/project-phase1/RED_tb.sv {1 {vlog -work work -vopt -sv -stats=none I:/ECE552/project-phase1/RED_tb.sv
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module red_tb
+
+Top level modules:
+	red_tb
+
+} {} {}} I:/ECE552/project-phase1/ReadDecoder_4_16.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/ReadDecoder_4_16.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module ReadDecoder_4_16
+
+Top level modules:
+	ReadDecoder_4_16
+
+} {} {}} I:/ECE552/project-phase1/project-phase1-testbench.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/project-phase1-testbench.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module cpu_tb
+
+Top level modules:
+	cpu_tb
+
+} {} {}} I:/ECE552/project-phase1/PSA.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/PSA.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module PSA
+
+Top level modules:
+	PSA
+
+} {} {}} I:/ECE552/project-phase1/shifter.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/shifter.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module Shifter
+
+Top level modules:
+	Shifter
+
+} {} {}} I:/ECE552/project-phase1/PADDSB.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/PADDSB.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module PADDSB
+
+Top level modules:
+	PADDSB
+
+} {} {}} I:/ECE552/project-phase1/BitCell.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/BitCell.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module BitCell
+
+Top level modules:
+	BitCell
+
+} {} {}} I:/ECE552/project-phase1/memory.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/memory.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module memory_inst
+-- Compiling module memory_data
+
+Top level modules:
+	memory_inst
+	memory_data
+
+} {} {}} I:/ECE552/project-phase1/full_adder_1bit.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/full_adder_1bit.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module full_adder_1bit
+
+Top level modules:
+	full_adder_1bit
+
+} {} {}} I:/ECE552/project-phase1/CLA_4bit.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/CLA_4bit.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module CLA_4bit
+
+Top level modules:
+	CLA_4bit
+
+} {} {}} I:/ECE552/project-phase1/ALU.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/ALU.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module ALU
+
+Top level modules:
+	ALU
+
+} {} {}} I:/ECE552/project-phase1/PC_control.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/PC_control.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module PC_control
+
+Top level modules:
+	PC_control
+
+} {} {}} I:/ECE552/project-phase1/RED.v {1 {vlog -work work -vopt -stats=none I:/ECE552/project-phase1/RED.v
+Questa Intel Starter FPGA Edition-64 vlog 2021.2 Compiler 2021.04 Apr 14 2021
+-- Compiling module RED
+
+Top level modules:
+	RED
+
+} {} {}}

@@ -1,0 +1,510 @@
+# Compile of cpu.v was successful.
+# Compile of flag_reg.v was successful.
+# 2 compiles, 0 failed with no errors.
+vsim -voptargs=+acc work.cpu_tb
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 16:51:21 on Mar 04,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/Z \
+sim:/cpu_tb/DUT/V \
+sim:/cpu_tb/DUT/N \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite \
+sim:/cpu_tb/DUT/MemRead \
+sim:/cpu_tb/DUT/MemEnable \
+sim:/cpu_tb/DUT/MemtoReg
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlftavm10n".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftavm10n
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# ** Note: $finish    : I:/ECE552/project-phase1/project-phase1-testbench.v(126)
+#    Time: 2100 ns  Iteration: 1  Instance: /cpu_tb
+# 1
+# Break in Module cpu_tb at I:/ECE552/project-phase1/project-phase1-testbench.v line 126
+# Causality operation skipped due to absence of debug database file
+# Compile of cpu.v was successful.
+# Compile of PC_control.v was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+# ** Error (suppressible): (vsim-3053) Illegal output or inout port connection for port 'q'.
+#    Time: 0 ns  Iteration: 0  Instance: /cpu_tb/DUT/pc_dff[0] File: I:/ECE552/project-phase1/cpu.v Line: 46
+# Break key hit
+# Break key hit
+# Compile of cpu.v was successful.
+# Compile of PC_control.v was successful.
+# 2 compiles, 0 failed with no errors.
+vsim -voptargs=+acc work.cpu
+# vsim -voptargs="+acc" work.cpu 
+# Start time: 16:51:21 on Mar 04,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-31) Unable to unlink file "I:/ECE552/project-phase1/work/@_opt3/_data/exemptjy943a".
+# ** Warning: (vopt-133) Unable to remove directory "I:/ECE552/project-phase1/work/@_opt3/_data".
+# ** Warning: (vopt-133) Unable to remove directory "I:/ECE552/project-phase1/work/@_opt3".
+# The directory is not empty. (GetLastError() = 145)
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=1, Warnings=3.
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlfthgn0dn".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlfthgn0dn
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/clk'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/rst_n'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/hlt'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/pc'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/ALU_A'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/ALU_B'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/opcode'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/instruction'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/ALU_Out'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/read_reg_1'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/read_reg_2'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/write_reg'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/read_data_1'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/read_data_2'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/rd'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/rs'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/rt'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/imm_offset'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/imm_offset_sign_ext'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/imm_offset_sign_ext_shl'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/imm_8bit'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/branch_offset'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/branch_cond'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/next_pc'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/mem_read_data'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/reg_write_data'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/LLB_data'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/LHB_data'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/flag'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/Z'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/V'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/N'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/RegDst'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/ALUSrc'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/RegWrite'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/MemWrite'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/MemRead'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/MemEnable'. 
+# Warning in wave window restart: ** UI-Msg: (vish-4014) No objects found matching '/cpu_tb/DUT/MemtoReg'. 
+vsim -voptargs=+acc work.cpu_tb
+# End time: 17:03:06 on Mar 04,2024, Elapsed time: 0:11:45
+# Errors: 1, Warnings: 7
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 17:03:06 on Mar 04,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-31) Unable to unlink file "I:/ECE552/project-phase1/work/@_opt3/_lib.qdb".
+# ** Warning: (vopt-31) Unable to unlink file "I:/ECE552/project-phase1/work/@_opt3/_lib3_0.qdb".
+# The process cannot access the file because it is being used by another process. (GetLastError() = 32)
+# ** Warning: (vopt-31) Unable to unlink file "I:/ECE552/project-phase1/work/@_opt3/_lib3_0.qpg".
+# The process cannot access the file because it is being used by another process. (GetLastError() = 32)
+# ** Warning: (vopt-31) Unable to unlink file "I:/ECE552/project-phase1/work/@_opt3/_lib3_0.qtl".
+# The process cannot access the file because it is being used by another process. (GetLastError() = 32)
+# ** Warning: (vopt-133) Unable to remove directory "I:/ECE552/project-phase1/work/@_opt3".
+# init_auxdbinfo(): INTERNAL ERROR: Cannot open page file "I:/ECE552/project-phase1/work/@_opt3/_lib1_0.qpg" in read mode
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=5.
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+vsim -voptargs=+acc work.cpu_tb
+# End time: 17:03:44 on Mar 04,2024, Elapsed time: 0:00:38
+# Errors: 0, Warnings: 6
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 17:03:44 on Mar 04,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+add wave -position insertpoint  \
+sim:/cpu_tb/PC \
+sim:/cpu_tb/Inst \
+sim:/cpu_tb/RegWrite \
+sim:/cpu_tb/WriteRegister \
+sim:/cpu_tb/WriteData \
+sim:/cpu_tb/MemWrite \
+sim:/cpu_tb/MemRead \
+sim:/cpu_tb/MemAddress \
+sim:/cpu_tb/MemData \
+sim:/cpu_tb/Halt \
+sim:/cpu_tb/inst_count \
+sim:/cpu_tb/cycle_count \
+sim:/cpu_tb/trace_file \
+sim:/cpu_tb/sim_log_file \
+sim:/cpu_tb/clk \
+sim:/cpu_tb/rst_n
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlftc5z6yy".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftc5z6yy
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# Compile of cpu.v was successful.
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# ** Note: $finish    : I:/ECE552/project-phase1/project-phase1-testbench.v(126)
+#    Time: 2100 ns  Iteration: 1  Instance: /cpu_tb
+# 1
+# Break in Module cpu_tb at I:/ECE552/project-phase1/project-phase1-testbench.v line 126
+add wave -position insertpoint  \
+sim:/cpu_tb/DUT/clk \
+sim:/cpu_tb/DUT/rst_n \
+sim:/cpu_tb/DUT/hlt \
+sim:/cpu_tb/DUT/pc \
+sim:/cpu_tb/DUT/ALU_A \
+sim:/cpu_tb/DUT/ALU_B \
+sim:/cpu_tb/DUT/opcode \
+sim:/cpu_tb/DUT/instruction \
+sim:/cpu_tb/DUT/ALU_Out \
+sim:/cpu_tb/DUT/read_reg_1 \
+sim:/cpu_tb/DUT/read_reg_2 \
+sim:/cpu_tb/DUT/write_reg \
+sim:/cpu_tb/DUT/read_data_1 \
+sim:/cpu_tb/DUT/read_data_2 \
+sim:/cpu_tb/DUT/rd \
+sim:/cpu_tb/DUT/rs \
+sim:/cpu_tb/DUT/rt \
+sim:/cpu_tb/DUT/imm_offset \
+sim:/cpu_tb/DUT/imm_offset_sign_ext \
+sim:/cpu_tb/DUT/imm_offset_sign_ext_shl \
+sim:/cpu_tb/DUT/imm_8bit \
+sim:/cpu_tb/DUT/branch_offset \
+sim:/cpu_tb/DUT/branch_cond \
+sim:/cpu_tb/DUT/next_pc \
+sim:/cpu_tb/DUT/mem_read_data \
+sim:/cpu_tb/DUT/reg_write_data \
+sim:/cpu_tb/DUT/LLB_data \
+sim:/cpu_tb/DUT/LHB_data \
+sim:/cpu_tb/DUT/flag \
+sim:/cpu_tb/DUT/Z \
+sim:/cpu_tb/DUT/V \
+sim:/cpu_tb/DUT/N \
+sim:/cpu_tb/DUT/RegDst \
+sim:/cpu_tb/DUT/ALUSrc \
+sim:/cpu_tb/DUT/RegWrite \
+sim:/cpu_tb/DUT/MemWrite \
+sim:/cpu_tb/DUT/MemRead \
+sim:/cpu_tb/DUT/MemEnable \
+sim:/cpu_tb/DUT/MemtoReg
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# ** Note: $finish    : I:/ECE552/project-phase1/project-phase1-testbench.v(126)
+#    Time: 2100 ns  Iteration: 1  Instance: /cpu_tb
+# 1
+# Break in Module cpu_tb at I:/ECE552/project-phase1/project-phase1-testbench.v line 126
+# Compile of cpu.v was successful.
+# Compile of PC_control.v was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# Compile of cpu.v was successful.
+# Compile of PC_control.v was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# Compile of cpu.v was successful.
+# Compile of PC_control.v was successful.
+# 2 compiles, 0 failed with no errors.
+# Compile of cpu.v was successful.
+# Compile of PC_control.v was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# Closing VCD file "dump.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Error: I:/ECE552/project-phase1/cpu.v(62): Register is illegal in left-hand side of continuous assignment
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=1, Warnings=0.
+# Compile of cpu.v was successful.
+vsim -voptargs=+acc work.cpu_tb
+# vsim -voptargs="+acc" work.cpu_tb 
+# Start time: 17:03:44 on Mar 04,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading work.cpu_tb(fast)
+# Loading work.cpu(fast)
+# Loading work.flag_reg(fast)
+# Loading work.dff(fast)
+# Loading work.memory_inst(fast)
+# Loading work.RegisterFile(fast)
+# Loading work.ReadDecoder_4_16(fast)
+# Loading work.Shifter(fast)
+# Loading work.WriteDecoder_4_16(fast)
+# Loading work.Register(fast)
+# Loading work.BitCell(fast)
+# Loading work.PC_control(fast)
+# Loading work.CLA_16bit(fast)
+# Loading work.CLA_4bit(fast)
+# Loading work.ALU(fast)
+# Loading work.PADDSB(fast)
+# Loading work.RED(fast)
+# Loading work.memory_data(fast)
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: mbischoff2  Hostname: XENCAE09  ProcessID: 17556
+#           Attempting to use alternate WLF file "./wlftfjbg6c".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftfjbg6c
+run -all
+# Hello world...simulation starting
+# See verilogsim.log and verilogsim.trace for output
+# ** Note: $finish    : I:/ECE552/project-phase1/project-phase1-testbench.v(126)
+#    Time: 2100 ns  Iteration: 1  Instance: /cpu_tb
+# 1
+# Break in Module cpu_tb at I:/ECE552/project-phase1/project-phase1-testbench.v line 126
