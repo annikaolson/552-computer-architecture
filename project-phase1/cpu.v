@@ -21,12 +21,7 @@ module cpu(clk, rst_n, hlt, pc);
     reg [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
     reg [8:0] branch_offset;   // label to jump to for B instruction
     reg [2:0] branch_cond; // branch condition for B and BR
-    wire [15:0] new_branch_addr;    // b_pc or br_pc
-    wire [15:0] new_pc; // pc + 2
     wire [15:0] next_pc;
-    wire [15:0] b_pc; // imm << 1 + pc + 2
-    wire [15:0] br_pc; // pc + rs
-    wire cout;
     wire [15:0] mem_read_data;
     wire [15:0] reg_write_data; // data to write to register
     wire [15:0] LLB_data; // LLB data
@@ -49,7 +44,12 @@ module cpu(clk, rst_n, hlt, pc);
     // if reset goes low for one clock cycle, the pc is set back    //
     // to 0 to start execution at the beginning.                    //
     //////////////////////////////////////////////////////////////////
-    dff pc_dff(.q(pc), .d(next_pc), .wen(!hlt), .clk(clk), .rst(rst_n));
+    //dff pc_dff(.q(pc), .d(next_pc), .wen(!hlt), .clk(clk), .rst(rst_n));
+    always @(posedge clk, negedge rst_n) begin
+        if (!rst_n) pc <= 16'h0000;
+        else if (hlt) pc <= pc;
+        else pc <= next_pc;
+    end
 
     //////////////////////////////////////////////////////////////////
     // inst. memory: using addr, find the 16-bit inst. to decode.   //
@@ -63,18 +63,35 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     // register file - decode registers to write to or read from    //
     //////////////////////////////////////////////////////////////////
-    assign imm_offset = instruction[3:0];
 
     always@(*) begin
 		case (opcode)
             // ALU Operations Assignments //
-            4'b0XXX :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end
+            4'b0000 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // ADD
+
+            4'b0001 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // SUB
+
+            4'b0010 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // XOR
+
+            4'b0011 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // RED
+
+            4'b0100 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end    // SLL
+
+            4'b0101 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end    // SRA
+
+            4'b0110 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end    // ROR
+
+            4'b0111 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // PADDSB
 
             // LW and SW Assignments //
-            4'b100X :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; end
+            4'b1000 :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end  // LW
+
+            4'b1001 :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end  // SW
 
             // LLB and LHB Assignment //
-            4'b101X :   begin assign rd = instruction[11:8]; assign imm_8bit = instruction[8:0]; end
+            4'b1010 :   begin assign rd = instruction[11:8]; assign imm_8bit = instruction[8:0]; end    // LLB
+
+            4'b1011 :   begin assign rd = instruction[11:8]; assign imm_8bit = instruction[8:0]; end    // LHB
 
             // B (B) Assignment //
             4'b1100 :   begin assign branch_cond = instruction[11:9]; assign branch_offset = instruction[8:0]; end
@@ -154,6 +171,7 @@ module cpu(clk, rst_n, hlt, pc);
     assign ALU_B = ALUSrc ? imm_offset_sign_ext : read_data_2;             
     assign ALU_A = read_data_1;                                         
 
+    // WILL NEED TO CHANGE SUCH THAT THE IMM IS NOT A PORT
     ALU alu(.A(ALU_A), .B(ALU_B), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(flag[2]), .N(flag[0]), .V(flag[1]), .Opcode(opcode));
 
     //////////////////////////////////////////////////////////////////
