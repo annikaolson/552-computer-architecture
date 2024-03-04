@@ -54,7 +54,7 @@ module ALU(A, B, imm, ALU_Out, Z, N, V, Opcode);
 	// All compute subcomponent connected to a MUX; opcode is selection signal //
 	/////////////////////////////////////////////////////////////////////////////
 	always@(*) begin
-		case (Opcode[2:0])
+		case (Opcode[3:0])
 			4'b0000	: 	begin assign ALU_Out = ADDSUB_out; // ADD: N, Z, V
 						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); V = Error; end	// set flags
 
@@ -81,7 +81,7 @@ module ALU(A, B, imm, ALU_Out, Z, N, V, Opcode);
 
 			4'b1001 :	assign ALU_Out = MEM_Addr;	// SW
 
-			default : $error("Error: opcode invalid!");
+			//default : $error("Error: opcode invalid!");
 		endcase
 	end
 

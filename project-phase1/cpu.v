@@ -2,13 +2,11 @@ module cpu(clk, rst_n, hlt, pc);
 
     input clk, rst_n;
     output reg hlt; // when processor encounters HLT instruction it will assert this signal once it is finished processing the instrucitno prior to the HLT
-    output [15:0] pc;   // PC value over the course of the program execution
+    output reg [15:0] pc;   // PC value over the course of the program execution
 
     //////////////////////////////////////////////////////////////////
     // intermediate variables used throughout CPU                   //
     //////////////////////////////////////////////////////////////////
-    wire [15:0] sign_ext_branch_imm; // sign-extended immediate value
-    wire [15:0] branch_imm_shl_1;  // value of immediate shifted left by one
     wire [15:0] ALU_A, ALU_B; // inputs to the ALU read from registers
     wire [3:0] opcode;  // opcode of the instruction
     wire [15:0] instruction;
@@ -16,7 +14,7 @@ module cpu(clk, rst_n, hlt, pc);
     wire [3:0] read_reg_1, read_reg_2, write_reg;   // registers to write to
     wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
     reg [3:0] rd, rs, rt;  // register numbers from instruction
-    wire [3:0] imm_offset;     // immediate for shifter operations, offset for LW and SW
+    reg [3:0] imm_offset;     // immediate for shifter operations, offset for LW and SW
     wire [15:0] imm_offset_sign_ext;
     reg [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
     reg [8:0] branch_offset;   // label to jump to for B instruction
@@ -32,7 +30,6 @@ module cpu(clk, rst_n, hlt, pc);
     // control signals: used as select signal for mux outputs       //
     //////////////////////////////////////////////////////////////////
     wire RegDst;    // determines the write register
-    reg Branch;    // branch address is used when asserted
     wire ALUSrc;    // select the second ALU input: read data 2 or immediate
     wire RegWrite;  // whether a register is being written to or not
     wire MemWrite, MemRead; // see if memory should be read from or written to
@@ -57,7 +54,7 @@ module cpu(clk, rst_n, hlt, pc);
     // decode the instruction: get the opcode, instruction type,    //
     // source, and destination registers to use for operation.      //
     //////////////////////////////////////////////////////////////////
-    memory_inst instr_mem(.data_out(instruction), .data_in(16'b0), .addr(pc), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(rst_n));
+    memory_inst instr_mem(.data_out(instruction), .data_in(16'b0), .addr(pc), .enable(1'b1), .wr(1'b0), .clk(clk), .rst(~rst_n));
     assign opcode = instruction[15:12];
 
     //////////////////////////////////////////////////////////////////
@@ -118,10 +115,10 @@ module cpu(clk, rst_n, hlt, pc);
     assign read_reg_1 = (opcode[3:1] == 3'b101) ? rd : rs; // any instruction that uses a register in the ALU uses rs
     assign read_reg_2 = rt;
     assign write_reg = RegDst ? rd : rt;    // if ALU op, choose rd, otherwise (if memory) choose rt as destination
-    assign RegWrite = ~opcode[0] | (opcode == 4'b1000) | (opcode == 4'b1010) | (opcode == 4'b1011); // will need to re-write 
+    assign RegWrite = ~opcode[3] | (opcode == 4'b1000) | (opcode == 4'b1010) | (opcode == 4'b1011); // will need to re-write 
 
     // **NOTE:** if we are not writing anything this time around, should reg write be 0? then it can be used at the end when we are ready to write?
-    RegisterFile rf(.clk(clk), .rst(rst_n), .SrcReg1(read_reg_1), .SrcReg2(read_reg_2), .DstReg(write_reg), .WriteReg(1'b0), .DstData(16'h0000), .SrcData1(read_data_1), .SrcData2(read_data_2));
+    RegisterFile rf(.clk(clk), .rst(~rst_n), .SrcReg1(read_reg_1), .SrcReg2(read_reg_2), .DstReg(write_reg), .WriteReg(RegDst), .DstData(reg_write_data), .SrcData1(read_data_1), .SrcData2(read_data_2));
 
     //////////////////////////////////////////////////////////////////
     // control instructions: B, BR, PCS, and HLT. the condition is  //
@@ -155,7 +152,7 @@ module cpu(clk, rst_n, hlt, pc);
     // this next pc calculation for the next instruction.           //
     // read_data_1 holds the data read from the rs register.        //
     //////////////////////////////////////////////////////////////////
-    PC_control pc(.C(branch_cond), .I(branch_offset), .F(flag), .PC_in(pc), .rs_data(read_data_1), .opcode(opcode), .PC_out(next_pc));
+    PC_control pc_control(.C(branch_cond), .I(branch_offset), .F(flag), .PC_in(pc), .rs_data(read_data_1), .opcode(opcode), .PC_out(next_pc));
 
     // Add PCS instruction
 
@@ -202,6 +199,6 @@ module cpu(clk, rst_n, hlt, pc);
     ////////////////////
     // Register Write //
     ////////////////////
-    RegisterFile rf_2(.clk(clk), .rst(rst_n), .SrcReg1(read_reg_1), .SrcReg2(read_reg_2), .DstReg(write_reg), .WriteReg(1'b1), .DstData(reg_write_data), .SrcData1(read_data_1), .SrcData2(read_data_2));
+    //RegisterFile rf_2(.clk(clk), .rst(~rst_n), .SrcReg1(read_reg_1), .SrcReg2(read_reg_2), .DstReg(write_reg), .WriteReg(RegDst), .DstData(reg_write_data), .SrcData1(), .SrcData2());
 
 endmodule
