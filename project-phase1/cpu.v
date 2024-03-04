@@ -18,11 +18,12 @@ module cpu(clk, rst_n, hlt, pc);
     reg [3:0] rd, rs, rt;  // register numbers from instruction
     wire [3:0] imm_offset;     // immediate for shifter operations, offset for LW and SW
     wire [15:0] imm_offset_sign_ext;
-    wire [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
+    reg [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
     reg [8:0] branch_offset;   // label to jump to for B instruction
     reg [2:0] branch_cond; // branch condition for B and BR
     wire [15:0] new_branch_addr;    // b_pc or br_pc
     wire [15:0] new_pc; // pc + 2
+    wire [15:0] next_pc;
     wire [15:0] b_pc; // imm << 1 + pc + 2
     wire [15:0] br_pc; // pc + rs
     wire cout;
@@ -73,7 +74,7 @@ module cpu(clk, rst_n, hlt, pc);
             4'b100X :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; end
 
             // LLB and LHB Assignment //
-            4'b101X :   assign rd = instruction[11:8];
+            4'b101X :   begin assign rd = instruction[11:8]; assign imm_8bit = instruction[8:0]; end
 
             // B (B) Assignment //
             4'b1100 :   begin assign branch_cond = instruction[11:9]; assign branch_offset = instruction[8:0]; end
@@ -97,7 +98,7 @@ module cpu(clk, rst_n, hlt, pc);
 
     // **NOTE:** NOT SURE IF THIS IS RIGHT.. CHECK OVER
     assign RegDst = (opcode[3:1] != 3'b100); // 0 if I-format, 1 otherwise
-    assign read_reg_1 = rs; // any instruction that uses a register in the ALU uses rs
+    assign read_reg_1 = (opcode[3:1] == 3'b101) ? rd : rs; // any instruction that uses a register in the ALU uses rs
     assign read_reg_2 = rt;
     assign write_reg = RegDst ? rd : rt;    // if ALU op, choose rd, otherwise (if memory) choose rt as destination
     assign RegWrite = ~opcode[0] | (opcode == 4'b1000) | (opcode == 4'b1010) | (opcode == 4'b1011); // will need to re-write 
@@ -137,7 +138,7 @@ module cpu(clk, rst_n, hlt, pc);
     // this next pc calculation for the next instruction.           //
     // read_data_1 holds the data read from the rs register.        //
     //////////////////////////////////////////////////////////////////
-    PC_control(.C(branch_cond), .I(branch_offset), .F(flag), .PC_in(pc), .rs_data(read_data_1), .opcode(opcode), .PC_out(next_pc));
+    PC_control pc(.C(branch_cond), .I(branch_offset), .F(flag), .PC_in(pc), .rs_data(read_data_1), .opcode(opcode), .PC_out(next_pc));
 
     // Add PCS instruction
 
@@ -171,9 +172,9 @@ module cpu(clk, rst_n, hlt, pc);
 
     assign write_data = (MemtoReg) ? mem_read_data : ALU_Out;
 
-    assign LLB_data = {write_data[15:8], imm_8bit[7:0]};
+    assign LLB_data = (read_data_1 & 16'hFF00) | (imm_8bit);
 
-    assign LHB_data = {imm_8bit[15:8], write_data[7:0]};
+    assign LHB_data = (read_data_1 & 16'h00FF) | (imm_8bit << 8);
 
     // Set register write data to either LLB data, LHB data, next pc (PCS), or ALU output based on opcode //
     assign reg_write_data = (opcode == 4'b1010) ? LLB_data :
