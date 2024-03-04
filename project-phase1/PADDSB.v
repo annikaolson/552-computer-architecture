@@ -17,29 +17,30 @@ module PADDSB(rs, rt, rd);
     //////////////////////////////
     // Calculate overflow flags //
     //////////////////////////////
-    assign overflow_pos[0] = (Sum_1[3] & C[0]);
-    assign overflow_pos[1] = (Sum_2[3] & C[1]);
-    assign overflow_pos[2] = (Sum_3[3] & C[2]);
-    assign overflow_pos[3] = (Sum_4[3] & C[3]);
-    assign overflow_neg[0] = (~Sum_1[3] & ~C[0]);
-    assign overflow_neg[1] = (~Sum_2[3] & ~C[1]);
-    assign overflow_neg[2] = (~Sum_3[3] & ~C[2]);
-    assign overflow_neg[3] = (~Sum_4[3] & ~C[3]);
+    assign overflow_pos[0] = (Sum_1[3] & ~rs[3] & ~rt[3]);
+    assign overflow_pos[1] = (Sum_2[3] & ~rs[7] & ~rt[7]);
+    assign overflow_pos[2] = (Sum_3[3] & ~rs[11] & ~rt[11]);
+    assign overflow_pos[3] = (Sum_4[3] & ~rs[15] & ~rt[15]);
+
+    assign overflow_neg[0] = (~Sum_1[3] & rs[3] & rt[3]);
+    assign overflow_neg[1] = (~Sum_2[3] & rs[7] & rt[7]);
+    assign overflow_neg[2] = (~Sum_3[3] & rs[11] & rt[11]);
+    assign overflow_neg[3] = (~Sum_4[3] & rs[15] & rt[15]);
 
     //////////////////////
     // saturation logic //
     //////////////////////
-    assign rd[3:0] = (overflow_pos[0]) ? 7 : 
-                        (overflow_neg[0]) ? -8 : 
+    assign rd[3:0] = (overflow_pos[0]) ? 4'b0111 : 
+                        (overflow_neg[0]) ? 4'b1000 : 
                         Sum_1[3:0];
-    assign rd[7:4] = (overflow_pos[1]) ? 7 : 
-                        (overflow_neg[1]) ? -8 :
+    assign rd[7:4] = (overflow_pos[1]) ? 4'b0111 : 
+                        (overflow_neg[1]) ? 4'b1000 :
                         Sum_2[3:0];
-    assign rd[11:8] = (overflow_pos[2]) ? 7 : 
-                        (overflow_neg[2]) ? -8 : 
+    assign rd[11:8] = (overflow_pos[2]) ? 4'b0111 : 
+                        (overflow_neg[2]) ? 4'b1000 : 
                         Sum_3[3:0];
-    assign rd[15:12] = (overflow_pos[3]) ? 7 : 
-                            (overflow_neg[3]) ? -8 : 
+    assign rd[15:12] = (overflow_pos[3]) ? 4'b0111 : 
+                            (overflow_neg[3]) ? 4'b1000 : 
                             Sum_4[3:0];
 
 endmodule
