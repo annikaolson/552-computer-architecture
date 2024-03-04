@@ -70,7 +70,9 @@ Register register_15(.clk(clk), .rst(rst), .D(DstData), .WriteReg(WriteEnable[15
 /////////////////////////////////////////////////////////////////////////////
 // Bypassing Logic: Connect written data directly to SrcData1 and SrcData2 //
 /////////////////////////////////////////////////////////////////////////////
-assign SrcData1 = WriteReg ? DstData : out_SrcData1;
-assign SrcData2 = WriteReg ? DstData : out_SrcData2;
+//assign SrcData1 = WriteReg ? DstData : out_SrcData1;
+//assign SrcData2 = WriteReg ? DstData : out_SrcData2;
+assign SrcData1 = out_SrcData1;
+assign SrcData2 = out_SrcData2;
 
 endmodule

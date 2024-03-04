@@ -18,7 +18,7 @@ module BitCell(clk, rst, D, WriteEnable, ReadEnable1, ReadEnable2, Bitline1, Bit
 	dff DFF(.q(Q), .d(D), .wen(WriteEnable), .clk(clk), .rst(rst));
 
 	// Tri-states
-	assign Bitline1 = (ReadEnable1) ? Q : 1'bz;
-	assign Bitline2 = (ReadEnable2) ? Q : 1'bz;
+	assign Bitline1 = (ReadEnable1) ? Q : 16'bZ;
+	assign Bitline2 = (ReadEnable2) ? Q : 16'bZ;
 
 endmodule
