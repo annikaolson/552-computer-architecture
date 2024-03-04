@@ -1,8 +1,9 @@
-module CLA_16bit(A, B, S, Cout, Sub);
+module CLA_16bit(A, B, S, Cout, Sub, Ovfl);
     input [15:0] A, B;
     input Sub;
     output [15:0] S;
     output Cout;
+    output Ovfl;
 
     wire C0, C1, C2;
     wire overflow_pos, overflow_neg;
@@ -29,6 +30,7 @@ module CLA_16bit(A, B, S, Cout, Sub);
     //////////////////////////////////////////////////////////////////
     assign overflow_pos = (!Sub & !A[15] & !B[15] & Sum[15]) | (Sub & !A[15] & B[15] & Sum[15]);
     assign overflow_neg = (!Sub & A[15] & B[15] & !Sum[15]) | (Sub & A[15] & !B[15] & !Sum[15]);
+    assign Ovfl = overflow_pos | overflow_neg;
 
     assign S = overflow_pos ? 16'h7FFF :
                 overflow_neg ? 16'h8000 :

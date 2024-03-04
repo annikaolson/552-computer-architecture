@@ -39,8 +39,8 @@ module cpu_tb();
       $display("Hello world...simulation starting");
       $display("See verilogsim.log and verilogsim.trace for output");
       inst_count = 0;
-      trace_file = $fopen("verilogsim.trace");
-      sim_log_file = $fopen("verilogsim.log");
+      trace_file = $fopen("verilogsim_3.trace");
+      sim_log_file = $fopen("verilogsim_3.log");
       
    end
 
@@ -162,7 +162,7 @@ module cpu_tb();
    assign WriteRegister = DUT.write_reg;
    // The name of the register being written to. (4 bit signal)
 
-   assign WriteData = DUT.write_data;
+   assign WriteData = DUT.reg_write_data;
    // Data being written to the register. (16 bits)
    
    assign MemRead =  DUT.MemRead;

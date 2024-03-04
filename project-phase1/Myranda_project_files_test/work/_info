@@ -1,0 +1,581 @@
+m255
+K4
+z2
+Z0 !s99 nomlopt
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+R0
+!s11f vlog 2021.2 2021.04, Apr 14 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z1 dC:/Windows/system32
+T_opt
+!s110 1709516794
+Vl:e:9Q3EX@HalOGX>3IH^0
+Z2 04 6 4 work cpu_tb fast 0
+=1-ee4c12975a50-65e527f9-9-9e4
+!s124 OEM10U1116 
+o-quiet -auto_acc_if_foreign -work work
+Z3 tCvgOpt 0
+n@_opt
+Z4 OL;O;2021.2;73
+R1
+T_opt1
+!s110 1709577963
+V4424J4?;d^_3az>LES_=B1
+R2
+=11-d638d5baf1c7-65e616ea-137-2a4c
+!s124 OEM10U580 
+o-quiet -auto_acc_if_foreign -work work +acc
+R3
+n@_opt1
+R4
+vaddsub_16bit_tb
+Z5 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+!s110 1709575422
+!i10b 1
+!s100 Zb9GI8G1:61^zg>[f`AOV3
+IVY2JHGH>YlSOQOD2O?eSc1
+S1
+Z6 dI:/ECE552/project-phase1
+Z7 w1709569173
+8I:/ECE552/project-phase1/addsub_16bit_tb.sv
+FI:/ECE552/project-phase1/addsub_16bit_tb.sv
+!i122 239
+L0 1 88
+Z8 VDg1SIo80bB@j0V0VzS_@n1
+Z9 OL;L;2021.2;73
+r1
+!s85 0
+31
+!s108 1709575421.000000
+!s107 I:/ECE552/project-phase1/addsub_16bit_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|I:/ECE552/project-phase1/addsub_16bit_tb.sv|
+!i113 0
+Z10 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R3
+vALU
+!s110 1709577959
+!i10b 1
+!s100 agmM::?okJfWBS33R?8FZ2
+I5gEMLKMaUZd78ZPhQF`1e1
+R6
+w1709577956
+8I:/ECE552/project-phase1/ALU.v
+FI:/ECE552/project-phase1/ALU.v
+!i122 269
+L0 1 95
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709577958.000000
+!s107 I:/ECE552/project-phase1/ALU.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/ALU.v|
+!i113 0
+Z11 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R3
+n@a@l@u
+vBitCell
+!s110 1709575423
+!i10b 1
+!s100 ?d[<PhC`iSUBolTBLDIe]1
+IP]k9lbSgm_=OgnejW`]`o0
+R6
+R7
+8I:/ECE552/project-phase1/BitCell.v
+FI:/ECE552/project-phase1/BitCell.v
+!i122 241
+Z12 L0 1 24
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575422.000000
+!s107 I:/ECE552/project-phase1/BitCell.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/BitCell.v|
+!i113 0
+R11
+R3
+n@bit@cell
+vCLA_16bit
+Z13 !s110 1709575424
+!i10b 1
+!s100 TIY6XG;G?j]l]1V]F=W2S0
+Id]hEO7PU?0DNT^@TlZbLP2
+R6
+R7
+8I:/ECE552/project-phase1/CLA_16bit.v
+FI:/ECE552/project-phase1/CLA_16bit.v
+!i122 243
+L0 1 39
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575424.000000
+!s107 I:/ECE552/project-phase1/CLA_16bit.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/CLA_16bit.v|
+!i113 0
+R11
+R3
+n@c@l@a_16bit
+vCLA_4bit
+R13
+!i10b 1
+!s100 Cj]Mj<AYK@W`VRi4b^CIW2
+I3F36eW@j2f]PCfVM;X:WM0
+R6
+R7
+8I:/ECE552/project-phase1/CLA_4bit.v
+FI:/ECE552/project-phase1/CLA_4bit.v
+!i122 242
+L0 2 27
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575423.000000
+!s107 I:/ECE552/project-phase1/CLA_4bit.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/CLA_4bit.v|
+!i113 0
+R11
+R3
+n@c@l@a_4bit
+vcpu
+!s110 1709577543
+!i10b 1
+!s100 8VIZl;>MlI_AC>e]PH_g62
+I5dJbFXf_2iPcYJ0CH7`;o1
+R6
+w1709577377
+8I:/ECE552/project-phase1/cpu.v
+FI:/ECE552/project-phase1/cpu.v
+!i122 268
+L0 1 209
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709577542.000000
+!s107 I:/ECE552/project-phase1/cpu.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/cpu.v|
+!i113 0
+R11
+R3
+vcpu_tb
+!s110 1709575429
+!i10b 1
+!s100 ?e^QKDO1SRPVlU2BYeP8j3
+I8jezgnP]]9cOg_B:DSR6J0
+R6
+w1709573021
+8I:/ECE552/project-phase1/project-phase1-testbench.v
+FI:/ECE552/project-phase1/project-phase1-testbench.v
+!i122 251
+L0 1 186
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575429.000000
+!s107 I:/ECE552/project-phase1/project-phase1-testbench.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/project-phase1-testbench.v|
+!i113 0
+R11
+R3
+vdff
+!s110 1709575425
+!i10b 1
+!s100 Z9V@F2c50oH6kZfdURZd60
+Ia@lBe51:7[goK[CZMPLQO1
+R6
+R7
+8I:/ECE552/project-phase1/D-Flip-Flop.v
+FI:/ECE552/project-phase1/D-Flip-Flop.v
+!i122 245
+L0 3 17
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575425.000000
+!s107 I:/ECE552/project-phase1/D-Flip-Flop.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/D-Flip-Flop.v|
+!i113 0
+R11
+R3
+vfull_adder_1bit
+!s110 1709575426
+!i10b 1
+!s100 H[T]4NdJ;lkRgbMYeVi5X0
+Ia=N2^bjd770HA1P4=fH9f3
+R6
+R7
+8I:/ECE552/project-phase1/full_adder_1bit.v
+FI:/ECE552/project-phase1/full_adder_1bit.v
+!i122 246
+Z14 L0 1 18
+R8
+R9
+r1
+!s85 0
+31
+Z15 !s108 1709575426.000000
+!s107 I:/ECE552/project-phase1/full_adder_1bit.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/full_adder_1bit.v|
+!i113 0
+R11
+R3
+vmemory_data
+Z16 !s110 1709575427
+!i10b 1
+!s100 hTCaoE]1:_hkg:2X:dT7`0
+Ij=;@<?N?F?VX9Q:OYhaWM1
+R6
+Z17 w1709573024
+Z18 8I:/ECE552/project-phase1/memory.v
+Z19 FI:/ECE552/project-phase1/memory.v
+!i122 247
+L0 71 38
+R8
+R9
+r1
+!s85 0
+31
+R15
+Z20 !s107 I:/ECE552/project-phase1/memory.v|
+Z21 !s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/memory.v|
+!i113 0
+R11
+R3
+vmemory_inst
+R16
+!i10b 1
+!s100 jSCXb=jh][hO2hN8i590G2
+I3M_:52hlf8Bc`5Y0<8R9e1
+R6
+R17
+R18
+R19
+!i122 247
+L0 31 38
+R8
+R9
+r1
+!s85 0
+31
+R15
+R20
+R21
+!i113 0
+R11
+R3
+vPADDSB
+Z22 !s110 1709575428
+!i10b 1
+!s100 dcB9cP;WFV8:ZEOag0UO>0
+IW:1zRmUDm=_6MPZ2BT9;L2
+R6
+R7
+8I:/ECE552/project-phase1/PADDSB.v
+FI:/ECE552/project-phase1/PADDSB.v
+!i122 248
+L0 1 46
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575427.000000
+!s107 I:/ECE552/project-phase1/PADDSB.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/PADDSB.v|
+!i113 0
+R11
+R3
+n@p@a@d@d@s@b
+vpaddsb_tb
+R5
+R22
+!i10b 1
+!s100 VDAERNDDKQhWH3_DFc@@Z2
+I:c7fP[W92lKXzeSfYzPY>0
+S1
+R6
+R7
+8I:/ECE552/project-phase1/PADDSB_tb.sv
+FI:/ECE552/project-phase1/PADDSB_tb.sv
+!i122 249
+L0 1 50
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575428.000000
+!s107 I:/ECE552/project-phase1/PADDSB_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|I:/ECE552/project-phase1/PADDSB_tb.sv|
+!i113 0
+R10
+R3
+vPC_control
+!s110 1709575958
+!i10b 1
+!s100 WL[Io?LP6TSNRDIgLB]643
+I8<kBYh?_onUZ;ic5cCI?S3
+R6
+w1709575949
+8I:/ECE552/project-phase1/PC_control.v
+FI:/ECE552/project-phase1/PC_control.v
+!i122 261
+L0 1 45
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575957.000000
+!s107 I:/ECE552/project-phase1/PC_control.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/PC_control.v|
+!i113 0
+R11
+R3
+n@p@c_control
+vPSA
+!s110 1709575430
+!i10b 1
+!s100 HgmWJSZ>f8z8`[QHMk<m03
+IBF<]hnC:GKP6W9Gg2;Nl81
+R6
+R7
+8I:/ECE552/project-phase1/PSA.v
+FI:/ECE552/project-phase1/PSA.v
+!i122 252
+R14
+R8
+R9
+r1
+!s85 0
+31
+Z23 !s108 1709575430.000000
+!s107 I:/ECE552/project-phase1/PSA.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/PSA.v|
+!i113 0
+R11
+R3
+n@p@s@a
+vReadDecoder_4_16
+!s110 1709575431
+!i10b 1
+!s100 aKN;1QVoV6m27@egh10W^1
+I]J2QSg7nb60f=l]KBZYOX2
+R6
+R7
+8I:/ECE552/project-phase1/ReadDecoder_4_16.v
+FI:/ECE552/project-phase1/ReadDecoder_4_16.v
+!i122 253
+L0 1 16
+R8
+R9
+r1
+!s85 0
+31
+R23
+!s107 I:/ECE552/project-phase1/ReadDecoder_4_16.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/ReadDecoder_4_16.v|
+!i113 0
+R11
+R3
+n@read@decoder_4_16
+vRED
+Z24 !s110 1709575432
+!i10b 1
+!s100 YdDi^MgK_>ifeNnm=3H`k0
+ID72=`>Fh[XQARZ_U^nQBd1
+R6
+R7
+8I:/ECE552/project-phase1/RED.v
+FI:/ECE552/project-phase1/RED.v
+!i122 254
+L0 1 56
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575431.000000
+!s107 I:/ECE552/project-phase1/RED.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/RED.v|
+!i113 0
+R11
+R3
+n@r@e@d
+vred_tb
+R5
+R24
+!i10b 1
+!s100 FAH9G@5FTf7]fD;071<313
+IlG5O?98fbZhc;;jR`7XE`2
+S1
+R6
+R7
+8I:/ECE552/project-phase1/RED_tb.sv
+FI:/ECE552/project-phase1/RED_tb.sv
+!i122 255
+L0 1 31
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575432.000000
+!s107 I:/ECE552/project-phase1/RED_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|I:/ECE552/project-phase1/RED_tb.sv|
+!i113 0
+R10
+R3
+vRegister
+!s110 1709575433
+!i10b 1
+!s100 :D1a<>7@?Oin?V[N@`3SB0
+I`32?W<ZFdBOQPPVbH;12i1
+R6
+R7
+8I:/ECE552/project-phase1/Register.v
+FI:/ECE552/project-phase1/Register.v
+!i122 256
+R12
+R8
+R9
+r1
+!s85 0
+31
+Z25 !s108 1709575433.000000
+!s107 I:/ECE552/project-phase1/Register.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/Register.v|
+!i113 0
+R11
+R3
+n@register
+vRegisterFile
+!s110 1709575434
+!i10b 1
+!s100 ;XSKWBcA=W03YefjaU3ZT2
+IGcO2E967bzMT?za;o@kb]2
+R6
+R7
+8I:/ECE552/project-phase1/RegisterFile.v
+FI:/ECE552/project-phase1/RegisterFile.v
+!i122 257
+L0 1 78
+R8
+R9
+r1
+!s85 0
+31
+R25
+!s107 I:/ECE552/project-phase1/RegisterFile.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/RegisterFile.v|
+!i113 0
+R11
+R3
+n@register@file
+vShifter
+!s110 1709575435
+!i10b 1
+!s100 PXF1kJ_0`cdn<QBeWn8CJ3
+IYHOg343aX2moP^<l3La;G2
+R6
+R7
+8I:/ECE552/project-phase1/shifter.v
+FI:/ECE552/project-phase1/shifter.v
+!i122 258
+L0 1 85
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575434.000000
+!s107 I:/ECE552/project-phase1/shifter.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/shifter.v|
+!i113 0
+R11
+R3
+n@shifter
+vWriteDecoder_4_16
+!s110 1709575436
+!i10b 1
+!s100 9;mbFeF9L?mZ:C8n=LRzk1
+Ie=;GhO;bPHVL:]CP?zE542
+R6
+R7
+8I:/ECE552/project-phase1/WriteDecoder_4_16.v
+FI:/ECE552/project-phase1/WriteDecoder_4_16.v
+!i122 259
+L0 1 13
+R8
+R9
+r1
+!s85 0
+31
+!s108 1709575435.000000
+!s107 I:/ECE552/project-phase1/WriteDecoder_4_16.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|I:/ECE552/project-phase1/WriteDecoder_4_16.v|
+!i113 0
+R11
+R3
+n@write@decoder_4_16

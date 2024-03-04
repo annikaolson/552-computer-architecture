@@ -33,7 +33,7 @@ module cpu(clk, rst_n, hlt, pc);
     wire RegDst;    // determines the write register
     wire ALUSrc;    // select the second ALU input: read data 2 or immediate
     wire RegWrite;  // whether a register is being written to or not
-    wire MemWrite, MemRead; // see if memory should be read from or written to
+    wire MemWrite, MemRead, MemEnable; // see if memory should be read from or written to
     wire MemtoReg;  // 1 indicates a load word, in which memory access is written to a register
 
 
@@ -95,7 +95,7 @@ module cpu(clk, rst_n, hlt, pc);
             4'b1100 :   begin assign branch_cond = instruction[11:9]; assign branch_offset = instruction[8:0]; end
 
             // BR (branch register) Assignments //
-            4'b1101 :   begin  assign branch_cond = instruction[11:9]; assign rs = instruction[7:3]; end
+            4'b1101 :   begin  assign branch_cond = instruction[11:9]; assign rs = instruction[7:4]; end
 
             // PCS Assignment //
             4'b1110 :   assign rd = instruction[11:8];
@@ -170,7 +170,7 @@ module cpu(clk, rst_n, hlt, pc);
     assign ALU_A = read_data_1;                                         
 
     // WILL NEED TO CHANGE SUCH THAT THE IMM IS NOT A PORT
-    ALU alu(.A(ALU_A), .B(ALU_B), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(flag[2]), .N(flag[0]), .V(flag[1]), .Opcode(opcode));
+    ALU alu(.A(ALU_A), .B(ALU_B), .imm(imm_offset), .ALU_Out(ALU_Out), .Z(flag[2]), .N(flag[0]), .V(flag[1]), .Opcode(opcode), .flag(flag));
 
     //////////////////////////////////////////////////////////////////
     // data memory: provide a 16-bit address and 16-bit data input  //
@@ -184,7 +184,9 @@ module cpu(clk, rst_n, hlt, pc);
 
     assign MemWrite = (opcode == 4'b1001); // 1 if store, 0 otherwise
 
-    memory_data data_mem(.data_out(mem_read_data), .data_in(read_data_2), .addr(ALU_Out), .enable(MemRead), .wr(MemWrite), .clk(clk), .rst(rst_n));
+    assign MemEnable = MemRead | MemWrite;
+
+    memory_data data_mem(.data_out(mem_read_data), .data_in(read_data_2), .addr(ALU_Out), .enable(MemEnable), .wr(MemWrite), .clk(clk), .rst(~rst_n));
 
     //assign write_data = (MemtoReg) ? mem_read_data : ALU_Out;
 
