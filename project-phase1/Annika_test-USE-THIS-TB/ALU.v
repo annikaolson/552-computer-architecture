@@ -30,12 +30,13 @@ module ALU(A, B, imm, ALU_Out, Z, N, V, Opcode);
 	// Add: Opcode[0] = 0 //
 	// Sub: Opcode[0] = 1 //
 	////////////////////////
-	CLA_16bit cla1(.A(A), .B(B), .S(ADDSUB_out), .Cout(cout), .Sub(Opcode[0]), .Ovfl(Error));
+	CLA_16bit cla_addsub(.A(A), .B(B), .S(ADDSUB_out), .Cout(cout), .Sub(Opcode[0]), .Ovfl(Error));
+	
 
 	//////////////////////////////////////////////////////
 	// CLA for calculating the memory address to access	//
 	//////////////////////////////////////////////////////
-	CLA_16bit cla2(.A(A & 16'hFFFE), .B(B), .S(MEM_Addr), .Cout(cout), .Sub(1'b0), .Ovfl(Error));
+	CLA_16bit cla_memaddr(.A(A & 16'hFFFE), .B(B), .S(MEM_Addr), .Cout(cout), .Sub(1'b0), .Ovfl(Error));
 
 	/////////////////////////////////////////////////////
 	// RED: performs reduction on 4 byte-size operands //
@@ -56,10 +57,10 @@ module ALU(A, B, imm, ALU_Out, Z, N, V, Opcode);
 	always@(*) begin
 		case (Opcode[3:0])
 			4'b0000	: 	begin assign ALU_Out = ADDSUB_out; // ADD: N, Z, V
-						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); V = Error; end	// set flags
+						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); assign V = Error; end	// set flags
 
 			4'b0001 : 	begin assign ALU_Out = ADDSUB_out; // SUB: N, Z, V
-						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); V = Error; end	// set flags
+						assign N = ALU_Out[15]; assign Z = (ALU_Out == 0); assign V = Error; end	// set flags
 
 			4'b0010 : 	begin assign ALU_Out = (A ^ B); // XOR; Z
 						assign Z = (ALU_Out == 0); end	// set flags

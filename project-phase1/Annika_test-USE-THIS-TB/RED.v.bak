@@ -49,7 +49,7 @@ module RED(rs, rt, rd);
     //////////////////////////////////////////////////////////////////
     // sign extend the sum to a 16-bit number to be placed in rd    //
     //////////////////////////////////////////////////////////////////
-    assign rd = {{7{rd_temp[8]}}, rd_temp[8:0]};
+    assign rd = {{6{rd_temp[9]}}, rd_temp[9:0]};
 
 
 

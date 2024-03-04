@@ -12,10 +12,11 @@ module cpu(clk, rst_n, hlt, pc);
     wire [15:0] instruction;
     wire [15:0] ALU_Out;    // output of ALU
     wire [3:0] read_reg_1, read_reg_2, write_reg;   // registers to write to
-    wire [15:0] read_data_1, read_data_2, write_data;   // the data read from the selected registers
+    wire [15:0] read_data_1, read_data_2;   // the data read from the selected registers
     reg [3:0] rd, rs, rt;  // register numbers from instruction
     reg [3:0] imm_offset;     // immediate for shifter operations, offset for LW and SW
     wire [15:0] imm_offset_sign_ext;
+    wire [15:0] imm_offset_sign_ext_shl;
     reg [7:0] imm_8bit;    // 8-bit immediate for LLB and LHB
     reg [8:0] branch_offset;   // label to jump to for B instruction
     reg [2:0] branch_cond; // branch condition for B and BR
@@ -64,26 +65,26 @@ module cpu(clk, rst_n, hlt, pc);
     always@(*) begin
 		case (opcode)
             // ALU Operations Assignments //
-            4'b0000 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // ADD
+            4'b0000 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign rt = instruction[3:0]; end    // ADD
 
-            4'b0001 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // SUB
+            4'b0001 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign rt = instruction[3:0]; end    // SUB
 
-            4'b0010 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // XOR
+            4'b0010 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign rt = instruction[3:0]; end    // XOR
 
-            4'b0011 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // RED
+            4'b0011 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign rt = instruction[3:0]; end    // RED
 
-            4'b0100 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end    // SLL
+            4'b0100 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign imm_offset = instruction[3:0]; end    // SLL
 
-            4'b0101 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end    // SRA
+            4'b0101 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign imm_offset = instruction[3:0]; end    // SRA
 
-            4'b0110 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end    // ROR
+            4'b0110 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign imm_offset = instruction[3:0]; end    // ROR
 
-            4'b0111 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:3]; assign rt = instruction[3:0]; end    // PADDSB
+            4'b0111 :   begin assign rd = instruction[11:8]; assign rs = instruction[7:4]; assign rt = instruction[3:0]; end    // PADDSB
 
             // LW and SW Assignments //
-            4'b1000 :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end  // LW
+            4'b1000 :   begin assign rt = instruction[11:8]; assign rs = instruction[7:4]; assign imm_offset = instruction[3:0]; end  // LW
 
-            4'b1001 :   begin assign rt = instruction[11:8]; assign rs = instruction[7:3]; assign imm_offset = instruction[3:0]; end  // SW
+            4'b1001 :   begin assign rt = instruction[11:8]; assign rs = instruction[7:4]; assign imm_offset = instruction[3:0]; end  // SW
 
             // LLB and LHB Assignment //
             4'b1010 :   begin assign rd = instruction[11:8]; assign imm_8bit = instruction[8:0]; end    // LLB
@@ -108,7 +109,7 @@ module cpu(clk, rst_n, hlt, pc);
     // immediate for shift and lw and sw instructions               //
     //////////////////////////////////////////////////////////////////
     assign imm_offset_sign_ext = {{12{imm_offset[3]}}, imm_offset};
-    assign imm_offset_sign_ext = imm_offset_sign_ext << 1;
+    assign imm_offset_sign_ext_shl = imm_offset_sign_ext << 1;
 
     // **NOTE:** NOT SURE IF THIS IS RIGHT.. CHECK OVER
     assign RegDst = (opcode[3:1] != 3'b100); // 0 if I-format, 1 otherwise
@@ -165,7 +166,7 @@ module cpu(clk, rst_n, hlt, pc);
     //////////////////////////////////////////////////////////////////
     assign ALUSrc = (opcode[3] == 1'b0)     ? 1'b0 :
                     (opcode[3:1] == 3'b110) ? 1'b0 : 1'b1; // 0 if R-format or branch, 1 otherwise
-    assign ALU_B = ALUSrc ? imm_offset_sign_ext : read_data_2;             
+    assign ALU_B = ALUSrc ? imm_offset_sign_ext_shl : read_data_2;             
     assign ALU_A = read_data_1;                                         
 
     // WILL NEED TO CHANGE SUCH THAT THE IMM IS NOT A PORT
@@ -185,7 +186,7 @@ module cpu(clk, rst_n, hlt, pc);
 
     memory_data data_mem(.data_out(mem_read_data), .data_in(read_data_2), .addr(ALU_Out), .enable(MemRead), .wr(MemWrite), .clk(clk), .rst(rst_n));
 
-    assign write_data = (MemtoReg) ? mem_read_data : ALU_Out;
+    //assign write_data = (MemtoReg) ? mem_read_data : ALU_Out;
 
     assign LLB_data = (read_data_1 & 16'hFF00) | (imm_8bit);
 
@@ -194,7 +195,9 @@ module cpu(clk, rst_n, hlt, pc);
     // Set register write data to either LLB data, LHB data, next pc (PCS), or ALU output based on opcode //
     assign reg_write_data = (opcode == 4'b1010) ? LLB_data :
                             (opcode == 4'b1011) ? LHB_data :
-                            (opcode == 4'b1110) ? next_pc : ALU_Out;
+                            (opcode == 4'b1110) ? next_pc :
+                            (opcode == 4'b1001) ? read_data_2 :
+			                (MemtoReg) ? mem_read_data : ALU_Out;
 
     ////////////////////
     // Register Write //

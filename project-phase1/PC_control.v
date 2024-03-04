@@ -1,4 +1,4 @@
-module PC_control(input [2:0]C, input [8:0]I, input [2:0]F, input [15:0]PC_in, input [15:0]rs_data, input [3:0]opcode, output [15:0]PC_out);
+module PC_control(input [2:0] C, input [8:0] I, input [2:0] F, input [15:0] PC_in, input [15:0] rs_data, input [3:0] opcode, output [15:0] PC_out);
     ////////////////////////////
     // Intermediate Variables //
     ////////////////////////////
@@ -8,6 +8,8 @@ module PC_control(input [2:0]C, input [8:0]I, input [2:0]F, input [15:0]PC_in, i
     wire Z_flag, V_flag, N_flag;
     reg Branch;
 
+    wire error;
+
     // C: 3-bit condition
     // I: 9-bit signed offset in 2's complement, right shifted by one
     // Target = PC + 2 _ ('I' << 1)
@@ -15,9 +17,9 @@ module PC_control(input [2:0]C, input [8:0]I, input [2:0]F, input [15:0]PC_in, i
     assign branch_imm_sign_ext = {{7{I[8]}}, I}; // sign extend immediate
     assign branch_imm = branch_imm_sign_ext << 1; // shift sign extended immediate left by one
 
-    CLA_16bit cla_b_pc(.A(PC_in), .B(16'h0002), .S(new_pc), .Cout(cout), .Sub(1'b0)); // calculate new pc (pc + 2)
-    CLA_16bit cla_branch(.A(new_pc), .B(branch_imm), .S(b_pc), .Cout(cout), .Sub(1'b0));  // calculate new branch addr (imm << 1 + pc + 2)
-    CLA_16bit cla_br_pc(.A(PC_in), .B(rs_data), .S(br_pc), .Cout(cout), .Sub(1'b0)); // calculate new branch register addr (pc + rs)
+    CLA_16bit cla_b_pc(.A(PC_in), .B(16'h0002), .S(new_pc), .Cout(cout), .Sub(1'b0), .Ovfl(error)); // calculate new pc (pc + 2)
+    CLA_16bit cla_branch(.A(new_pc), .B(branch_imm), .S(b_pc), .Cout(cout), .Sub(1'b0), .Ovfl(error));  // calculate new branch addr (imm << 1 + pc + 2)
+    CLA_16bit cla_br_pc(.A(PC_in), .B(rs_data), .S(br_pc), .Cout(cout), .Sub(1'b0), .Ovfl(error)); // calculate new branch register addr (pc + rs)
 
     assign Z_flag = F[2]; // done for readability
     assign V_flag = F[1];
